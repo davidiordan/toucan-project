@@ -1,4 +1,5 @@
-====== toucan-project
+toucan-project
+======
 ### Components that are being used
 **NOTE**: These versions are being used to prevent any compilation and compatibility issues with the newest version of React Native
 * NativeBase: Version 2.8.2
