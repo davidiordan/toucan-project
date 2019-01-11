@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 're
 import { createDrawerNavigator, DrawerItems } from 'react-navigation';
 import { Font } from 'expo';
 
-import ChatScreen from './ChatScreen';
+import HomeScreen from './HomeScreen';
 import NestScreen from './NestScreen';
 
 const { width } = Dimensions.get('window');
@@ -40,8 +40,8 @@ const CustomDrawerComponent = (props) => (
 )
 
 const LeftDrawerNav = createDrawerNavigator ({
-  Chat: {
-    screen: ChatScreen
+  Home: {
+    screen: HomeScreen
   },
   Nest: {
     screen: NestScreen
