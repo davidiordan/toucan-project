@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation';
-import { Font } from 'expo';
+import * as Expo from 'expo';
 
 import HomeScreen from './HomeScreen';
 import NestScreen from './NestScreen';
@@ -12,7 +12,7 @@ export default class App extends React.Component {
   state = { loading: true };
 
   async componentWillMount() {
-    await Font.loadAsync({
+    await Expo.Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
       'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
@@ -52,6 +52,7 @@ const LeftDrawerNav = createDrawerNavigator ({
     activeTintColor: 'white',
     inactiveTintColor: 'white',
     activeBackgroundColor: '#3A4240',
+    labelStyle: { fontSize: 17, fontFamily: 'Ubuntu-B' },
   },
   drawerBackgroundColor: '#222A28',
   drawerWidth: width * 0.6,

@@ -21,7 +21,7 @@ export default class NestScreen extends React.Component {
         </Header>
         
         <Content contentContainerStyle={styles.content}>
-          <Text>Chat Screen</Text>
+          <Text>Home Screen</Text>
         </Content>
       </Container>
     );
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     content: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
       backgroundColor: '#e8e8e8',
     },
     header: {
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     },
     navTitle: {
       color: 'white',
-      fontSize: 21,
+      fontSize: 23,
       fontFamily: 'Ubuntu-B',
     },
     navButtons: {
