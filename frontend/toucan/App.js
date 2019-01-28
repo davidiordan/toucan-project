@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 're
 import { createDrawerNavigator, DrawerItems } from 'react-navigation';
 import * as Expo from 'expo';
 
-import HomeScreen from './HomeScreen';
-import NestScreen from './NestScreen';
+import HomeScreen from './src/HomeScreen';
+import NestScreen from './src/NestScreen';
 
 const { width } = Dimensions.get('window');
 
