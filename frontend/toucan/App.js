@@ -5,6 +5,7 @@ import * as Expo from 'expo';
 
 import HomeScreen from './src/HomeScreen';
 import NestScreen from './src/NestScreen';
+import LoginScreen from "./src/Login/Login"
 
 const { width } = Dimensions.get('window');
 
@@ -27,6 +28,7 @@ export default class App extends React.Component {
     }
     return (
       <LeftDrawerNav />
+      // <LoginScreen />
     );
   }
 }

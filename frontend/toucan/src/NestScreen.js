@@ -11,7 +11,7 @@ export default class NestScreen extends React.Component {
             <Left style={ styles.navButtons }>
               <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.icon} />
             </Left>
-            <Body style={ styles.navButtons }>
+            <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
               <Title style={styles.navTitle}>Nest</Title>
             </Body>
             <Right style={ styles.navButtons }>

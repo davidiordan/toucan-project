@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, StatusBar } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right } from 'native-base';
 
-export default class NestScreen extends React.Component {
+export default class HomeScreen extends React.Component {
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
@@ -11,7 +11,7 @@ export default class NestScreen extends React.Component {
             <Left style={ styles.navButtons }>
               <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.icon} />
             </Left>
-            <Body style={ styles.navButtons }>
+            <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
               <Title style={styles.navTitle}>Home</Title>
             </Body>
             <Right style={ styles.navButtons }>
