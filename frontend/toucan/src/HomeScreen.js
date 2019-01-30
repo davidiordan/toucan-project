@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, StatusBar } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right } from 'native-base';
 
 export default class NestScreen extends React.Component {
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
-        <Header iosBarStyle='light-content' style={styles.header}>
+        <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
           {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
               <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.icon} />

@@ -26,7 +26,7 @@ export default class App extends React.Component {
       return <Expo.AppLoading />
     }
     return (
-      <LeftDrawerNav  />
+      <LeftDrawerNav />
     );
   }
 }

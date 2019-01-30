@@ -23,8 +23,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
-    "description": "Current working demo of the toucan app."
+    "description": "Current working demo of the toucan app.",
+    "androidStatusBarColor": "#275667",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#275667"
+    }
   }
 }

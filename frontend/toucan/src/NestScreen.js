@@ -6,7 +6,7 @@ export default class NestScreen extends React.Component {
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
-        <Header iosBarStyle='light-content' style={styles.header}>
+        <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
           {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
               <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.icon} />
