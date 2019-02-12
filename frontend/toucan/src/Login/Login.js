@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, StatusBar, Image, KeyboardAvoidingView } from 'react-native';
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
+import { LinearGradient } from 'expo';
 
 export default class LoginScreen extends React.Component {
   render() {
     return (
-    <Container style={ { backgroundColor: '#1E7898' } }>
-        
+    <Container style={ { backgroundColor: '#E8E8E8' } }>
+        <StatusBar backgroundColor="#E8E8E8" barStyle="dark-content" />
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
             <View style={ styles.imgContent }>
                 <Image source={require('../../assets/V2.png')} style={{width:200, height:147}}/>
@@ -19,12 +20,14 @@ export default class LoginScreen extends React.Component {
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input secureTextEntry={true} clearButtonMode='while-editing' textContentType="password" placeholder="password" placeholderTextColor="black" style={ styles.input } />
                 </Item>
+                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                    <Text>Don't have an account? </Text>
+                    <Button transparent info><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
+                </Item>
+                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                    <Button style={styles.signIn}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
+                </Item>
             </Form>
-            <View>
-                <Text>Don't have an account?</Text>
-                <Button transparent info><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
-            </View>
-            <Button primary><Text style={{color:'white'}}> Sign In </Text></Button>
         </KeyboardAvoidingView>
     </Container>
     );
@@ -33,11 +36,16 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
     content: {
-      flex: 1,
+      flex: .95,
       backgroundColor: '#E8E8E8',
     },
+    navTitle: {
+      color: 'white',
+      fontSize: 23,
+      fontFamily: 'Ubuntu-B',
+    },
     imgContent: {
-        flex: .75,
+        flex: .65,
         backgroundColor: '#E8E8E8',
         justifyContent: 'center',
         alignItems: 'center',
@@ -63,16 +71,23 @@ const styles = StyleSheet.create({
     },
     form: {
         color: 'black',
-        paddingTop: 15
+        justifyContent: "center", 
+        alignItems: "center",
     },
     input: {
         color: '#434343',
         backgroundColor: 'white',
-        borderTopRightRadius: 15,
-        borderBottomRightRadius: 15,
-        borderTopLeftRadius: 15,
-        borderBottomLeftRadius: 15,
+        borderRadius: 15,
         borderWidth: 2,
-        borderColor: '#E8E5E5'
+        borderColor: '#E8E5E5',
+        right: 7,
+        paddingLeft: 10
+    },
+    signIn: {
+        width: 200,
+        alignContent: "center",
+        justifyContent: "center",
+        backgroundColor: "#1E7898",
+        borderRadius: 15,
     }
   });

@@ -9,13 +9,13 @@ export default class HomeScreen extends React.Component {
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
           {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
-              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.icon} />
+              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
             </Left>
             <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
               <Title style={styles.navTitle}>Home</Title>
             </Body>
             <Right style={ styles.navButtons }>
-              {/* empty */}
+              <Icon name="ios-add" style={styles.rightIcon} />
             </Right>
           {/* </Container> */}
         </Header>
@@ -37,9 +37,13 @@ const styles = StyleSheet.create({
     header: {
       backgroundColor: '#1E7898',
     },
-    icon: {
+    leftIcon: {
         color: 'white',
         left: 10,
+    },
+    rightIcon: {
+      color: 'white',
+      right: 10,
     },
     navTitle: {
       color: 'white',
