@@ -27,6 +27,9 @@ export default class App extends React.Component {
       return <Expo.AppLoading />
     }
     return (
+      // FIX ME:
+      //    React-Navigation has been updated to V3.2.1
+      //    This means you have to redefine the drawer nav to fit the authStack
       // <LeftDrawerNav />
       <LoginScreen />
     );
