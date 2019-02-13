@@ -1,8 +1,33 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
+import * as firebase from 'firebase';
+
+import firebaseConfig from "../../src/Firebase/Config";
+
+firebaseConfig;
 
 export default class LoginScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = ({
+      email: '',
+      password: ''
+    });
+  }
+
+  signInUser = (email, password) => {
+    try {
+      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+        Alert.alert("IT WORKS!!");
+      });
+    } catch (error) {
+      // below does not work...
+      Alert.alert("User does not exist.");
+    }
+  }
+
   _alert() {
     Alert.alert("Testing Purposes Only.")
   }
@@ -18,17 +43,29 @@ export default class LoginScreen extends React.Component {
             <Form style={ styles.form }>
                 <Text style={ styles.signInTitle }>Sign In</Text>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Input autoCapitalize='none' clearButtonMode='while-editing' textContentType="username" placeholder="email address" placeholderTextColor="black" style={ styles.input } />
+                    <Input autoCapitalize='none' 
+                           clearButtonMode='while-editing' 
+                           textContentType="username" 
+                           placeholder="email address" 
+                           placeholderTextColor="black" 
+                           onChangeText={(email) => this.setState({email})}
+                           style={ styles.input } />
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Input secureTextEntry={true} clearButtonMode='while-editing' textContentType="password" placeholder="password" placeholderTextColor="black" style={ styles.input } />
+                    <Input secureTextEntry={true} 
+                           clearButtonMode='while-editing' 
+                           textContentType="password" 
+                           placeholder="password" 
+                           placeholderTextColor="black" 
+                           onChangeText={(password) => this.setState({password})}
+                           style={ styles.input } />
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Text>Don't have an account? </Text>
-                    <Button transparent info><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
+                    <Button transparent info onPress={this._alert}><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Button style={styles.signIn} onPress={this._alert}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
+                    <Button style={styles.signIn} onPress={() => this.signInUser(this.state.email, this.state.password)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
                 </Item>
             </Form>
         </KeyboardAvoidingView>
