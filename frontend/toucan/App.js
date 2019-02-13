@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
-import { createDrawerNavigator, DrawerItems } from 'react-navigation';
+import { createSwitchNavigator, createStackNavigator, createAppContainer, createDrawerNavigator, DrawerItems } from 'react-navigation';
 import * as Expo from 'expo';
 
 import HomeScreen from './src/HomeScreen';
@@ -31,7 +31,8 @@ export default class App extends React.Component {
       //    React-Navigation has been updated to V3.2.1
       //    This means you have to redefine the drawer nav to fit the authStack
        //<LeftDrawerNav />
-      <LoginScreen />
+      //<LoginScreen />
+      <AppCont />
     );
   }
 }
@@ -50,6 +51,9 @@ const LeftDrawerNav = createDrawerNavigator ({
   },
   Nest: {
     screen: NestScreen
+  },
+  Logout: {
+    screen: LoginScreen
   },
 }, {
   contentComponent: CustomDrawerComponent,
@@ -72,3 +76,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+const AuthStack = createStackNavigator({ Login: LoginScreen });
+
+const AppCont = createAppContainer(createSwitchNavigator(
+  {
+    App: LeftDrawerNav,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'Auth',
+  }
+));
+
