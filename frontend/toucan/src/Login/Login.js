@@ -27,6 +27,21 @@ export default class LoginScreen extends React.Component {
       Alert.alert("User does not exist.");
     }
   }
+  
+  signUpUser = (email, password) => {
+    try {
+      if (this.state.password.length < 8) {
+        Alert.alert("Password must be at least 8 characters long.");
+        return;
+      }
+
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+        Alert.alert("USER HAS SIGNED UP.");
+      });
+    } catch (error) {
+      Alert.alert("Unable to create account. Try again later.");
+    }
+  }
 
   _alert() {
     Alert.alert("Testing Purposes Only.")
@@ -62,7 +77,7 @@ export default class LoginScreen extends React.Component {
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Text>Don't have an account? </Text>
-                    <Button transparent info onPress={this._alert}><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
+                    <Button transparent info onPress={() => this.signUpUser(this.state.email, this.state.password)}><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Button style={styles.signIn} onPress={() => this.signInUser(this.state.email, this.state.password)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
