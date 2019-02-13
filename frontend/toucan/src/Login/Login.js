@@ -20,11 +20,12 @@ export default class LoginScreen extends React.Component {
   signInUser = (email, password) => {
     try {
       firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-        Alert.alert("IT WORKS!!");
+        this.props.navigation.navigate('App');
       });
     } catch (error) {
       // below does not work...
       Alert.alert("User does not exist.");
+      this.props.navigation.navigate('Auth');
     }
   }
   
@@ -99,7 +100,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#E8E8E8',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 50,
     },
     signInTitle: {
         paddingBottom: 8,
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
         color: 'black',
         justifyContent: "center", 
         alignItems: "center",
-        paddingTop: 50,
     },
     input: {
         color: '#434343',
