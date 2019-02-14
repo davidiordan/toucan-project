@@ -3,10 +3,6 @@ import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert }
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
-import firebaseConfig from "../../src/Firebase/Config";
-
-firebaseConfig;
-
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +29,7 @@ export default class LoginScreen extends React.Component {
       Alert.alert("USER HAS SIGNED UP.");
     }).catch(error => {Alert.alert("Unable to create account. Try again later.")});
   }
-  
+
   render() {
     return (
     <Container style={ { backgroundColor: '#E8E8E8' } }>
@@ -53,7 +49,7 @@ export default class LoginScreen extends React.Component {
                            onChangeText={(email) => this.setState({email})}
                            style={ styles.input } />
                 </Item>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                <Item style={ { borderColor:'transparent' } }>
                     <Input secureTextEntry={true} 
                            clearButtonMode='while-editing' 
                            textContentType="password" 
@@ -62,7 +58,7 @@ export default class LoginScreen extends React.Component {
                            onChangeText={(password) => this.setState({password})}
                            style={ styles.input } />
                 </Item>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                <Item style={ { borderColor:'transparent' } }>
                     <Text>Don't have an account? </Text>
                     <Button transparent info onPress={() => this.signUpUser(this.state.email, this.state.password)}><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
                 </Item>

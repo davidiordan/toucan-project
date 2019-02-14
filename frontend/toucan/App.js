@@ -3,11 +3,15 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 're
 import { createSwitchNavigator, createStackNavigator, createAppContainer, createDrawerNavigator, DrawerItems } from 'react-navigation';
 import * as Expo from 'expo';
 
+import firebaseConfig from './src/Firebase/Config';
+
 import HomeScreen from './src/HomeScreen';
 import NestScreen from './src/NestScreen';
 import LoginScreen from "./src/Login/Login"
 
 const { width } = Dimensions.get('window');
+
+firebaseConfig;
 
 export default class App extends React.Component {
   state = { loading: true };
