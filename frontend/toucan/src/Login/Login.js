@@ -18,34 +18,20 @@ export default class LoginScreen extends React.Component {
   }
 
   signInUser = (email, password) => {
-    try {
-      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-        this.props.navigation.navigate('App');
-      });
-    } catch (error) {
-      // below does not work...
-      Alert.alert("User does not exist.");
-      this.props.navigation.navigate('Auth');
-    }
+    firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+      this.props.navigation.navigate('App');
+    }).catch(error => {Alert.alert("Email or Password is wrong.")}) //testing code, do not push to prod
   }
   
   signUpUser = (email, password) => {
-    try {
-      if (this.state.password.length < 8) {
-        Alert.alert("Password must be at least 8 characters long.");
-        return;
-      }
-
-      firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-        Alert.alert("USER HAS SIGNED UP.");
-      });
-    } catch (error) {
-      Alert.alert("Unable to create account. Try again later.");
+    if (this.state.password.length < 8) {
+      Alert.alert("Password must be at least 8 characters long.");
+      return;
     }
-  }
-
-  _alert() {
-    Alert.alert("Testing Purposes Only.")
+     
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+      Alert.alert("USER HAS SIGNED UP.");
+    }).catch(error => {Alert.alert("Unable to create account. Try again later.")});
   }
   
   render() {
