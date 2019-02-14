@@ -19,16 +19,29 @@ export default class LoginScreen extends React.Component {
     }).catch(error => {Alert.alert("Email or Password is wrong.")}) //testing code, do not push to prod
   }
 
+  static navigationOptions = {
+    title: 'toucan',
+    headerStyle: {
+      backgroundColor: '#1E7898',
+    },
+    headerTitleStyle: {
+      fontFamily: 'Ubuntu-B',
+      fontWeight: 'bold',
+      color: '#ffffff',
+      fontSize: 23
+    },
+    headerTintColor: "#ffffff",
+  };
+
   render() {
     return (
     <Container style={ { backgroundColor: '#E8E8E8' } }>
-        <StatusBar backgroundColor="#E8E8E8" barStyle="dark-content" />
+        <StatusBar backgroundColor="#1E7898" barStyle="light-content" />
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
             <View style={ styles.imgContent }>
-                <Image source={require('../../assets/V2.png')} style={{width:200, height:147}}/>
+                <Image source={require('../../assets/V2.png')} style={{width:186, height:136}}/>
             </View>
             <Form style={ styles.form }>
-                <Text style={ styles.signInTitle }>Sign In</Text>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input autoCapitalize='none' 
                            clearButtonMode='while-editing' 
@@ -48,8 +61,8 @@ export default class LoginScreen extends React.Component {
                            style={ styles.input } />
                 </Item>
                 <Item style={ { borderColor:'transparent' } }>
-                    <Text>Don't have an account? </Text>
-                    <Button transparent info onPress={() => this.props.navigation.navigate('SignUp')}><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
+                    <Text style={{fontFamily:'Ubuntu-R', fontSize:15}}>Don't have an account? </Text>
+                    <Button transparent info onPress={() => this.props.navigation.navigate('SignUp')}><Text style={{color:'#55B1C5', fontFamily:'Ubuntu-B', fontSize:15}}>Sign Up</Text></Button>
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Button style={styles.signIn} onPress={() => this.signInUser(this.state.email, this.state.password)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
@@ -63,11 +76,11 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
     content: {
-      flex: .95,
+      flex: 1,
       backgroundColor: '#E8E8E8',
     },
     imgContent: {
-        flex: .65,
+        flex: .6,
         backgroundColor: '#E8E8E8',
         justifyContent: 'center',
         alignItems: 'center',

@@ -30,16 +30,26 @@ export default class LoginScreen extends React.Component {
     }).catch(error => {Alert.alert("Unable to create account. Try again later.")});
   }
 
+  static navigationOptions = {
+    title: 'toucan',
+    headerStyle: {
+      backgroundColor: '#1E7898',
+    },
+    headerTitleStyle: {
+      fontFamily: 'Ubuntu-B',
+      fontWeight: 'bold',
+      color: '#ffffff',
+      fontSize: 23,
+    },
+    headerTintColor: "#ffffff",
+  };
+
   render() {
     return (
     <Container style={ { backgroundColor: '#E8E8E8' } }>
-        <StatusBar backgroundColor="#E8E8E8" barStyle="dark-content" />
+        <StatusBar backgroundColor="#E8E8E8" barStyle="light-content" />
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
-            <View style={ styles.imgContent }>
-                <Image source={require('../../assets/V2.png')} style={{width:200, height:147}}/>
-            </View>
             <Form style={ styles.form }>
-                <Text style={ styles.signInTitle }>Sign Up</Text>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input autoCapitalize='none' 
                            clearButtonMode='while-editing' 
@@ -62,7 +72,7 @@ export default class LoginScreen extends React.Component {
                     <Input secureTextEntry={true} 
                            clearButtonMode='while-editing' 
                            textContentType="password" 
-                           placeholder="reenter password" 
+                           placeholder="re-enter password" 
                            placeholderTextColor="black" 
                            onChangeText={(password2) => this.setState({password2})}
                            style={ styles.input } />
@@ -79,40 +89,35 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
     content: {
-      flex: .95,
+      flex: 1,
       backgroundColor: '#E8E8E8',
     },
-    imgContent: {
-        flex: .65,
-        backgroundColor: '#E8E8E8',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     signInTitle: {
-        paddingBottom: 8,
-        color: 'black',
-        fontSize: 23,
-        fontFamily: 'Ubuntu-B'
+      paddingBottom: 8,
+      color: 'black',
+      fontSize: 23,
+      fontFamily: 'Ubuntu-B'
     },
     form: {
-        color: 'black',
-        justifyContent: "center", 
-        alignItems: "center",
+      top: 8,
+      color: 'black',
+      justifyContent: "center", 
+      alignItems: "center",
     },
     input: {
-        color: '#434343',
-        backgroundColor: 'white',
-        borderRadius: 15,
-        borderWidth: 2,
-        borderColor: '#E8E5E5',
-        right: 7,
-        paddingLeft: 10
+      color: '#434343',
+      backgroundColor: 'white',
+      borderRadius: 15,
+      borderWidth: 2,
+      borderColor: '#E8E5E5',
+      right: 7,
+      paddingLeft: 10
     },
     signIn: {
-        width: 200,
-        alignContent: "center",
-        justifyContent: "center",
-        backgroundColor: "#1E7898",
-        borderRadius: 15,
+      width: 200,
+      alignContent: "center",
+      justifyContent: "center",
+      backgroundColor: "#1E7898",
+      borderRadius: 15,
     }
   });
