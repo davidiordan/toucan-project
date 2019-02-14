@@ -8,6 +8,7 @@ import firebaseConfig from './src/Firebase/Config';
 import HomeScreen from './src/HomeScreen';
 import NestScreen from './src/NestScreen';
 import LoginScreen from "./src/Login/Login"
+import SignUpScreen from "./src/Login/SignUp";
 
 const { width } = Dimensions.get('window');
 
@@ -51,9 +52,6 @@ const LeftDrawerNav = createDrawerNavigator ({
   Nest: {
     screen: NestScreen
   },
-  Logout: {
-    screen: LoginScreen
-  },
 }, {
   contentComponent: CustomDrawerComponent,
   contentOptions: {
@@ -67,15 +65,10 @@ const LeftDrawerNav = createDrawerNavigator ({
   drawerPosition: 'left',
 })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#e2e2e2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const AuthStack = createStackNavigator({ 
+  Login: LoginScreen,
+  SignUp: SignUpScreen,
 });
-const AuthStack = createStackNavigator({ Login: LoginScreen });
 
 const AppCont = createAppContainer(createSwitchNavigator(
   {
@@ -87,3 +80,11 @@ const AppCont = createAppContainer(createSwitchNavigator(
   }
 ));
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#e2e2e2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

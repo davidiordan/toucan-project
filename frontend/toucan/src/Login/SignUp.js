@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
@@ -9,14 +10,24 @@ export default class LoginScreen extends React.Component {
 
     this.state = ({
       email: '',
-      password: ''
+      password1: '',
+      password2: ''
     });
   }
 
-  signInUser = (email, password) => {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-      this.props.navigation.navigate('App');
-    }).catch(error => {Alert.alert("Email or Password is wrong.")}) //testing code, do not push to prod
+  signUpUser = (email, password1, password2) => {
+    if (this.state.password1.length < 8) {
+      Alert.alert("Password must be at least 8 characters long.");
+      return;
+    }
+    else if  (this.state.password1 !== this.state.password2) {
+      Alert.alert("Passwords do not match.");
+      return;
+    }
+
+    firebase.auth().createUserWithEmailAndPassword(email, password1).then(() => {
+      this.props.navigation.navigate('Login');
+    }).catch(error => {Alert.alert("Unable to create account. Try again later.")});
   }
 
   render() {
@@ -28,7 +39,7 @@ export default class LoginScreen extends React.Component {
                 <Image source={require('../../assets/V2.png')} style={{width:200, height:147}}/>
             </View>
             <Form style={ styles.form }>
-                <Text style={ styles.signInTitle }>Sign In</Text>
+                <Text style={ styles.signInTitle }>Sign Up</Text>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input autoCapitalize='none' 
                            clearButtonMode='while-editing' 
@@ -38,21 +49,26 @@ export default class LoginScreen extends React.Component {
                            onChangeText={(email) => this.setState({email})}
                            style={ styles.input } />
                 </Item>
-                <Item style={ { borderColor:'transparent' } }>
+                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input secureTextEntry={true} 
                            clearButtonMode='while-editing' 
                            textContentType="password" 
                            placeholder="password" 
                            placeholderTextColor="black" 
-                           onChangeText={(password) => this.setState({password})}
+                           onChangeText={(password1) => this.setState({password1})}
                            style={ styles.input } />
                 </Item>
-                <Item style={ { borderColor:'transparent' } }>
-                    <Text>Don't have an account? </Text>
-                    <Button transparent info onPress={() => this.props.navigation.navigate('SignUp')}><Text style={{color:'#55B1C5'}}>Sign Up</Text></Button>
+                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                    <Input secureTextEntry={true} 
+                           clearButtonMode='while-editing' 
+                           textContentType="password" 
+                           placeholder="reenter password" 
+                           placeholderTextColor="black" 
+                           onChangeText={(password2) => this.setState({password2})}
+                           style={ styles.input } />
                 </Item>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Button style={styles.signIn} onPress={() => this.signInUser(this.state.email, this.state.password)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
+                    <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
                 </Item>
             </Form>
         </KeyboardAvoidingView>
