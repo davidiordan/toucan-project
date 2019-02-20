@@ -77,7 +77,7 @@ const AppCont = createAppContainer(createSwitchNavigator(
     Auth: AuthStack,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName: 'App', // edited here
   }
 ));
 

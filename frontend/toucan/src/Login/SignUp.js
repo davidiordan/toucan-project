@@ -31,7 +31,7 @@ export default class LoginScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'toucan',
+    title: 'Sign Up',
     headerStyle: {
       backgroundColor: '#1E7898',
     },

@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, StatusBar } from 'react-native';
-import { Icon, Button, Container, Header, Content, Left, Title, Body, Right } from 'native-base';
+import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
+import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card, CardItem } from 'native-base';
+
+const { width } = Dimensions.get('window');
 
 export default class HomeScreen extends React.Component {
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
-          {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
               <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
             </Left>
@@ -17,12 +18,66 @@ export default class HomeScreen extends React.Component {
             <Right style={ styles.navButtons }>
               <Icon name="ios-add" style={styles.rightIcon} />
             </Right>
-          {/* </Container> */}
-        </Header>
-        
-        <Content contentContainerStyle={styles.content}>
-          <Text>Home Screen</Text>
-        </Content>
+        </Header>        
+        <ScrollView contentContainerStyle={styles.content}>
+          {/* <View style={styles.stack}>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 1</Text>
+                </Body>
+              </CardItem>
+            </Card>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 2</Text>
+                </Body>
+              </CardItem>
+            </Card>
+          </View>
+          <View style={styles.stack}>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 3</Text>
+                </Body>
+              </CardItem>
+            </Card>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 4</Text>
+                </Body>
+              </CardItem>
+            </Card>
+          </View>
+          <View style={styles.stack}>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 5</Text>
+                </Body>
+              </CardItem>
+            </Card>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 6</Text>
+                </Body>
+              </CardItem>
+            </Card>
+          </View>
+          <View style={{flex: 'row'}}>
+            <Card style={styles.cards}>
+              <CardItem>
+                <Body>
+                  <Text>CARD 7</Text>
+                </Body>
+              </CardItem>
+            </Card>
+          </View> */}
+        </ScrollView>
       </Container>
     );
   }
@@ -30,7 +85,8 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
     content: {
-      flex: 1,
+      paddingTop: 10,
+      paddingBottom: 35,
       alignItems: 'center',
       backgroundColor: '#e8e8e8',
     },
@@ -52,5 +108,15 @@ const styles = StyleSheet.create({
     },
     navButtons: {
       flex: 1,
+    },
+    stack: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+    },
+    cards: {
+      height: 250,
+      width: width / 2.2,
+      justifyContent: 'center',
     }
   });

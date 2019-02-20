@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native';
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
@@ -13,14 +13,32 @@ export default class LoginScreen extends React.Component {
     });
   }
 
-  signInUser = (email, password) => {
+  signInUser = async (email, password) => {
+    // iffy code below, beware
+    AsyncStorage.setItem("email", this.state.email);
+    AsyncStorage.setItem("password", this.state.password);
+
+    try {
+      const mail = await AsyncStorage.getItem('email');
+      const pass = await AsyncStorage.getItem('password');
+
+      if (mail !== null) {
+        email = mail;
+      }
+      if (pass !== null) {
+        password = pass;
+      }
+    } catch (error) {
+      //
+    }
+
     firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
       this.props.navigation.navigate('App');
     }).catch(error => {Alert.alert("Email or Password is wrong.")}) //testing code, do not push to prod
   }
 
   static navigationOptions = {
-    title: 'toucan',
+    title: 'Sign In',
     headerStyle: {
       backgroundColor: '#1E7898',
     },
