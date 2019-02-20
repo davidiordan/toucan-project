@@ -1,6 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
-import { createSwitchNavigator, createStackNavigator, createAppContainer, createDrawerNavigator, DrawerItems } from 'react-navigation';
 import * as Expo from 'expo';
 
 import firebaseConfig from './src/Firebase/Config';
