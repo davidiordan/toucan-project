@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert }
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
-export default class LoginScreen extends React.Component {
+export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -53,7 +53,7 @@ export default class LoginScreen extends React.Component {
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input autoCapitalize='none' 
                            clearButtonMode='while-editing' 
-                           textContentType="username" 
+                           textContentType="emailAddress" 
                            placeholder="email address" 
                            placeholderTextColor="black" 
                            onChangeText={(email) => this.setState({email})}

@@ -8,6 +8,7 @@ import HomeScreen from '../HomeScreen';
 import NestScreen from '../NestScreen';
 import LoginScreen from "../Login/Login"
 import SignUpScreen from "../Login/SignUp";
+import AddEventScreen from "../Events/AddEvent";
 
 export default class Navigator extends React.Component {
   render() {
@@ -48,12 +49,12 @@ const AuthStack = createStackNavigator({
   SignUp: SignUpScreen,
 });
 
-const AppCont = createAppContainer(createSwitchNavigator(
-  {
+const AppCont = createAppContainer(
+  createSwitchNavigator({
     App: LeftDrawerNav,
     Auth: AuthStack,
-  },
-  {
+    AddEvent: AddEventScreen,
+  },{
     initialRouteName: 'Auth', // edited here
-  }
-));
+  })
+);
