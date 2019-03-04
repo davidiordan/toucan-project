@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card, CardItem } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import MapView from 'react-native-maps';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default class HomeScreen extends React.Component {
   render() {
@@ -20,6 +21,15 @@ export default class HomeScreen extends React.Component {
               <Icon name="ios-add" onPress={() => this.props.navigation.navigate("AddEvent")} style={styles.rightIcon} />
             </Right>
         </Header>
+        <MapView 
+          style={{width: width, height: height / 3}}
+          initialRegion={{
+            latitude: 38.971668,
+            longitude: -95.235252,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0424,
+          }}
+        />
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Grid style={{paddingLeft: 5.5}}>
             <Col style={{alignItems: 'center'}}>
