@@ -32,9 +32,11 @@ export default class LoginScreen extends React.Component {
       //
     }
 
-    firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-      this.props.navigation.navigate('App');
-    }).catch(error => {Alert.alert("Email or Password is wrong.")}) //testing code, do not push to prod
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(
+      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+        this.props.navigation.navigate('App');
+      }).catch(error => {Alert.alert(error.message)})
+    )
   }
 
   static navigationOptions = {

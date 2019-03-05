@@ -21,15 +21,17 @@ export default class HomeScreen extends React.Component {
               <Icon name="ios-add" onPress={() => this.props.navigation.navigate("AddEvent")} style={styles.rightIcon} />
             </Right>
         </Header>
-        <MapView 
-          style={{width: width, height: height / 3}}
-          initialRegion={{
-            latitude: 38.971668,
-            longitude: -95.235252,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0424,
-          }}
-        />
+        <View style={styles.map}>
+          <MapView 
+            style={{width: width, height: height / 3}}
+            initialRegion={{
+              latitude: 38.971668,
+              longitude: -95.235252,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0424,
+            }}
+          />
+        </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Grid style={{paddingLeft: 5.5}}>
             <Col style={{alignItems: 'center'}}>
@@ -94,7 +96,7 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
     content: {
-      paddingTop: 8,
+      paddingTop: 10,
       paddingBottom: 35,
       alignItems: 'center',
       backgroundColor: '#e8e8e8',
@@ -121,5 +123,9 @@ const styles = StyleSheet.create({
     cards: {
       width: width / 2.2,
       aspectRatio: 3/4,
+    },
+    map: {
+      borderBottomWidth: 2,
+      borderBottomColor: 'rgba(0, 0, 0, 0.1)',
     }
   });
