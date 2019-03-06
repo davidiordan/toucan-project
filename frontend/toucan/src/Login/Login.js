@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native';
-import { Container, Content, Form, Item, Input, Button } from 'native-base';
+import { Container, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
@@ -13,27 +13,14 @@ export default class LoginScreen extends React.Component {
     });
   }
 
+  writeUserData = (userId, email) => {
+    console.log("\n\n\tTEST: " + userId + " " + email + "\n\n");
+  }
+
   signInUser = async (email, password) => {
-    // iffy code below, beware
-    AsyncStorage.setItem("email", this.state.email);
-    AsyncStorage.setItem("password", this.state.password);
-
-    try {
-      const mail = await AsyncStorage.getItem('email');
-      const pass = await AsyncStorage.getItem('password');
-
-      if (mail !== null) {
-        email = mail;
-      }
-      if (pass !== null) {
-        password = pass;
-      }
-    } catch (error) {
-      //
-    }
-
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(
       firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+        this.writeUserData(1, email); // this function should probably be in SignUp.js
         this.props.navigation.navigate('App');
       }).catch(error => {Alert.alert(error.message)})
     )

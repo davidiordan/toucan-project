@@ -3,10 +3,26 @@ import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card, CardItem } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
+import * as firebase from 'firebase';
 
 const { width, height } = Dimensions.get('window');
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = ({
+      user: '',
+      email: ''
+    });
+
+    let curUser = firebase.auth().currentUser;
+    if (curUser !== null) {
+      this.state.user = curUser;
+      this.state.email = this.state.user.email;
+    }
+  }
+
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
@@ -38,7 +54,7 @@ export default class HomeScreen extends React.Component {
               <Card style={styles.cards}>
                 <CardItem>
                   <Body>
-                    <Text>CARD 1</Text>
+                    <Text>{this.state.email}</Text>
                   </Body>
                 </CardItem>
               </Card>

@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert } from 'react-native';
-import { Container, Content, Form, Item, Input, Button } from 'native-base';
+import { StyleSheet, Text, StatusBar, Image, KeyboardAvoidingView, Alert } from 'react-native';
+import { Container, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
 export default class SignUpScreen extends React.Component {
@@ -26,8 +25,8 @@ export default class SignUpScreen extends React.Component {
     }
 
     firebase.auth().createUserWithEmailAndPassword(email, password1).then(() => {
-      this.props.navigation.navigate('Login');
-    }).catch(error => {Alert.alert("Unable to create account. Try again later.")});
+      this.props.navigation.navigate('Login', { email: this.email });
+    }).catch(error => {Alert.alert(error.message)});
   }
 
   static navigationOptions = {

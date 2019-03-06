@@ -31,7 +31,7 @@ export default class AddEventScreen extends React.Component {
                       style={ styles.input } />
             </Item>
             <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                <Button style={styles.addEvent} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2)}>
+                <Button style={styles.addEvent} onPress={() => Alert.alert("Add Event Button Tapped")}>
                   <Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Add Event </Text>
                 </Button>
             </Item>
