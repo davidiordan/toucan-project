@@ -25,12 +25,8 @@ const CustomDrawerComponent = (props) => (
 )
 
 const LeftDrawerNav = createDrawerNavigator ({
-  Home: {
-    screen: HomeScreen
-  },
-  Nest: {
-    screen: NestScreen
-  },
+  Home: HomeScreen,
+  Nest: NestScreen,
 }, {
   contentComponent: CustomDrawerComponent,
   contentOptions: {
@@ -55,6 +51,6 @@ const AppCont = createAppContainer(
     Auth: AuthStack,
     AddEvent: AddEventScreen,
   },{
-    initialRouteName: 'Auth', // edited here
+    initialRouteName: 'App', // edited here
   })
 );
