@@ -13,14 +13,9 @@ export default class LoginScreen extends React.Component {
     });
   }
 
-  writeUserData = (userId, email) => {
-    console.log("\n\n\tTEST: " + userId + " " + email + "\n\n");
-  }
-
   signInUser = async (email, password) => {
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(
       firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-        this.writeUserData(1, email); // this function should probably be in SignUp.js
         this.props.navigation.navigate('App');
       }).catch(error => {Alert.alert(error.message)})
     )

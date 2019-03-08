@@ -14,6 +14,15 @@ export default class SignUpScreen extends React.Component {
     });
   }
 
+  writeUserData = (userId, email) => {
+    console.log("\n\n\tTEST: " + userId + " " + email + "\n\n");
+
+    // below code did not work due to permission?
+    // firebase.database().ref('/users/' + userId).set({
+    //   email: email,
+    // });
+  }
+
   signUpUser = (email, password1, password2) => {
     if (this.state.password1.length < 8) {
       Alert.alert("Password must be at least 8 characters long.");
@@ -25,7 +34,10 @@ export default class SignUpScreen extends React.Component {
     }
 
     firebase.auth().createUserWithEmailAndPassword(email, password1).then(() => {
-      this.props.navigation.navigate('Login', { email: this.email });
+      let curUser = firebase.auth().currentUser;
+      this.writeUserData(curUser.uid, curUser.email);
+
+      this.props.navigation.navigate('Login');
     }).catch(error => {Alert.alert(error.message)});
   }
 
