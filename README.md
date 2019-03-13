@@ -1,8 +1,10 @@
 toucan-project
 ======
 ### Instructions
+* Download Node: https://nodejs.org/en/download/
+* Using Node install the Expo CLI: '$bash> npm install -g expo-cli'
 * Clone the repository
-* Go into the frontend/toucan/ folder and type 'npm install'
+* Go into the toucan/ folder and type '$bash> npm install'
 * Once finished type 'expo start -c' and run on the simulator of your choice
 
 
