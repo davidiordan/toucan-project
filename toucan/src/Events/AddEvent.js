@@ -1,10 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Icon, Button, Container, Header, Left, Title, Body, Right, Form, Item, Input } from 'native-base';
+import * as firebase from 'firebase';
 
-const { width } = Dimensions.get('window');
+const uuidv1 = require('uuid/v1');
 
 export default class AddEventScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = ({
+      name: '',
+    });
+  }
+
+  addEvent = (name) => {
+    let eventUID = uuidv1().replace(/-/g, "");
+    // testing code
+    console.log("\n\n\t UUID: " + eventUID + "\n\n");
+
+    firebase.database().ref('/events/' + eventUID).set({
+      name: name,
+    });
+
+    this.props.navigation.navigate('Home');
+  }
+
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
@@ -27,11 +48,11 @@ export default class AddEventScreen extends React.Component {
                       textContentType="name" 
                       placeholder="Event Name" 
                       placeholderTextColor="black" 
-                      onChangeText={(email) => this.setState({email})}
+                      onChangeText={(name) => this.setState({name})}
                       style={ styles.input } />
             </Item>
             <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                <Button style={styles.addEvent} onPress={() => Alert.alert("Add Event Button Tapped")}>
+                <Button style={styles.addEvent} onPress={() => this.addEvent(this.state.name)}>
                   <Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Add Event </Text>
                 </Button>
             </Item>
@@ -65,10 +86,6 @@ const styles = StyleSheet.create({
     },
     navButtons: {
       flex: 1,
-    },
-    cards: {
-      width: width / 2.2,
-      aspectRatio: 3/4,
     },
     form: {
       top: 8,

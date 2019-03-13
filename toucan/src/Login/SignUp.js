@@ -17,10 +17,9 @@ export default class SignUpScreen extends React.Component {
   writeUserData = (userId, email) => {
     console.log("\n\n\tTEST: " + userId + " " + email + "\n\n");
 
-    // below code did not work due to permission?
-    // firebase.database().ref('/users/' + userId).set({
-    //   email: email,
-    // });
+    firebase.database().ref('/users/' + userId).set({
+      email: email,
+    });
   }
 
   signUpUser = (email, password1, password2) => {
