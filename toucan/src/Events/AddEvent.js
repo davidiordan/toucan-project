@@ -20,7 +20,9 @@ export default class AddEventScreen extends React.Component {
     console.log("\n\n\t UUID: " + eventUID + "\n\n");
 
     firebase.database().ref('/events/' + eventUID).set({
+      creator: firebase.auth().currentUser.email,
       name: name,
+      // WILL NEED LOCATION AND TAGS
     });
 
     this.props.navigation.navigate('Home');
@@ -51,6 +53,7 @@ export default class AddEventScreen extends React.Component {
                       onChangeText={(name) => this.setState({name})}
                       style={ styles.input } />
             </Item>
+            {/* ADD MORE ITEMS HERE FOR THE TAGS AND LOCATION */}
             <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                 <Button style={styles.addEvent} onPress={() => this.addEvent(this.state.name)}>
                   <Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Add Event </Text>

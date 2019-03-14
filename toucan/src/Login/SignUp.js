@@ -10,7 +10,8 @@ export default class SignUpScreen extends React.Component {
     this.state = ({
       email: '',
       password1: '',
-      password2: ''
+      password2: '',
+      tags: [],
     });
   }
 
@@ -19,6 +20,11 @@ export default class SignUpScreen extends React.Component {
 
     firebase.database().ref('/users/' + userId).set({
       email: email,
+      tags: [
+        // MAKE CHANGES HERE
+        'music',
+        'gaming',
+      ]
     });
   }
 
@@ -87,6 +93,7 @@ export default class SignUpScreen extends React.Component {
                            onChangeText={(password2) => this.setState({password2})}
                            style={ styles.input } />
                 </Item>
+                {/* ADD ANOTHER ITEM HERE FOR THE MULTIPLE SELECT */}
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
                 </Item>
