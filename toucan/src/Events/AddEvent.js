@@ -23,6 +23,7 @@ export default class AddEventScreen extends React.Component {
       creator: firebase.auth().currentUser.email,
       name: name,
       // WILL NEED LOCATION AND TAGS
+      
     });
 
     this.props.navigation.navigate('Home');
