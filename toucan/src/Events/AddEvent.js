@@ -1,9 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Icon, Button, Container, Header, Left, Title, Body, Right, Form, Item, Input } from 'native-base';
+import { Icon, Button, Container, Header, Left, Title, Body, Right, Form, Item, Input, Label } from 'native-base';
 import * as firebase from 'firebase';
+import SelectMultiple from 'react-native-select-multiple';
 
 const uuidv1 = require('uuid/v1');
+
+const tagsList = [
+  { label: 'Sports', value: 'sports' },
+  { label: 'Arts and Literature', value: 'arts' },
+  { label: 'Conferences', value: 'conferences' },
+  { label: 'Education', value: 'education' },
+  { label: 'Concerts', value: 'concerts' },
+]
+
+// test location for adding dummy events
+const testLoc = {
+  latitude: '38.971668',
+  longitude: '-95.235252',
+}
 
 export default class AddEventScreen extends React.Component {
   constructor(props) {
@@ -11,19 +26,29 @@ export default class AddEventScreen extends React.Component {
 
     this.state = ({
       name: '',
+      location: {
+        latitude: '',
+        longitude: '',
+      },
+      tags: []
     });
   }
 
-  addEvent = (name) => {
+  onSelectionsChange = (tags) => {
+    this.setState({tags});
+  }
+  
+  addEvent = (name, location, tags) => {
     let eventUID = uuidv1().replace(/-/g, "");
     // testing code
     console.log("\n\n\t UUID: " + eventUID + "\n\n");
+    console.log(tags);
 
     firebase.database().ref('/events/' + eventUID).set({
       creator: firebase.auth().currentUser.email,
       name: name,
-      // WILL NEED LOCATION AND TAGS
-      
+      location: location,
+      tags: tags,
     });
 
     this.props.navigation.navigate('Home');
@@ -44,23 +69,45 @@ export default class AddEventScreen extends React.Component {
             </Right>
         </Header>
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
-          <Form style={ styles.form }>
-            <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                <Input autoCapitalize='none' 
-                      clearButtonMode='while-editing' 
-                      textContentType="name" 
-                      placeholder="Event Name" 
-                      placeholderTextColor="black" 
-                      onChangeText={(name) => this.setState({name})}
-                      style={ styles.input } />
-            </Item>
-            {/* ADD MORE ITEMS HERE FOR THE TAGS AND LOCATION */}
-            <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                <Button style={styles.addEvent} onPress={() => this.addEvent(this.state.name)}>
-                  <Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Add Event </Text>
-                </Button>
-            </Item>
-          </Form>
+          <ScrollView>
+            <Form style={ styles.form }>
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                  <Input autoCapitalize='none' 
+                        clearButtonMode='while-editing' 
+                        textContentType="name" 
+                        placeholder="Event Name" 
+                        placeholderTextColor="black" 
+                        onChangeText={(name) => this.setState({name})}
+                        style={ styles.input } />
+              </Item>
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                  <Input autoCapitalize='none' 
+                        clearButtonMode='while-editing' 
+                        textContentType="location" 
+                        placeholder="Event Location" 
+                        placeholderTextColor="black" 
+                        onChangeText={(location) => this.setState({location})}
+                        style={ styles.input } />
+              </Item>
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                <Label style={ { color: 'black', fontSize: 18 } }>Tags</Label>
+              </Item>
+              {/* ADD ANOTHER ITEM HERE FOR THE MULTIPLE SELECT */}
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                <SelectMultiple 
+                    items={tagsList}
+                    selectedItems={this.state.tags}
+                    onSelectionsChange={this.onSelectionsChange}
+                    style={ styles.input }
+                  />
+              </Item>            
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                  <Button style={styles.addEvent} onPress={() => this.addEvent(this.state.name, testLoc, this.state.tags)}>
+                    <Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Add Event </Text>
+                  </Button>
+              </Item>
+            </Form>
+          </ScrollView>
         </KeyboardAvoidingView>
       </Container>
     );

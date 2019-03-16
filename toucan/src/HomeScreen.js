@@ -6,6 +6,7 @@ import MapView from 'react-native-maps';
 import * as firebase from 'firebase';
 
 const { width, height } = Dimensions.get('window');
+const database = firebase.database();
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ export default class HomeScreen extends React.Component {
 
     this.state = ({
       user: '',
-      email: ''
+      email: '',
+      events: [],
     });
 
     let curUser = firebase.auth().currentUser;

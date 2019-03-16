@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert, ScrollView } from 'react-native';
 import { Container, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
@@ -46,21 +46,21 @@ export default class LoginScreen extends React.Component {
             <Form style={ styles.form }>
                 <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                     <Input autoCapitalize='none' 
-                           clearButtonMode='while-editing' 
-                           textContentType="username" 
-                           placeholder="email address" 
-                           placeholderTextColor="black" 
-                           onChangeText={(email) => this.setState({email})}
-                           style={ styles.input } />
+                          clearButtonMode='while-editing' 
+                          textContentType="username" 
+                          placeholder="email address" 
+                          placeholderTextColor="black" 
+                          onChangeText={(email) => this.setState({email})}
+                          style={ styles.input } />
                 </Item>
                 <Item style={ { borderColor:'transparent' } }>
                     <Input secureTextEntry={true} 
-                           clearButtonMode='while-editing' 
-                           textContentType="password" 
-                           placeholder="password" 
-                           placeholderTextColor="black" 
-                           onChangeText={(password) => this.setState({password})}
-                           style={ styles.input } />
+                          clearButtonMode='while-editing' 
+                          textContentType="password" 
+                          placeholder="password" 
+                          placeholderTextColor="black" 
+                          onChangeText={(password) => this.setState({password})}
+                          style={ styles.input } />
                 </Item>
                 <Item style={ { borderColor:'transparent' } }>
                     <Text style={{fontFamily:'Ubuntu-R', fontSize:15}}>Don't have an account? </Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, StatusBar, Image, KeyboardAvoidingView, Alert } from 'react-native';
+import { StyleSheet, Text, StatusBar, Image, KeyboardAvoidingView, Alert, ScrollView } from 'react-native';
 import { Container, Form, Item, Input, Button } from 'native-base';
 import * as firebase from 'firebase';
 
@@ -65,39 +65,41 @@ export default class SignUpScreen extends React.Component {
     <Container style={ { backgroundColor: '#E8E8E8' } }>
         <StatusBar backgroundColor="#E8E8E8" barStyle="light-content" />
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
-            <Form style={ styles.form }>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Input autoCapitalize='none' 
-                           clearButtonMode='while-editing' 
-                           textContentType="emailAddress" 
-                           placeholder="email address" 
-                           placeholderTextColor="black" 
-                           onChangeText={(email) => this.setState({email})}
-                           style={ styles.input } />
-                </Item>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Input secureTextEntry={true} 
-                           clearButtonMode='while-editing' 
-                           textContentType="password" 
-                           placeholder="password" 
-                           placeholderTextColor="black" 
-                           onChangeText={(password1) => this.setState({password1})}
-                           style={ styles.input } />
-                </Item>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Input secureTextEntry={true} 
-                           clearButtonMode='while-editing' 
-                           textContentType="password" 
-                           placeholder="re-enter password" 
-                           placeholderTextColor="black" 
-                           onChangeText={(password2) => this.setState({password2})}
-                           style={ styles.input } />
-                </Item>
-                {/* ADD ANOTHER ITEM HERE FOR THE MULTIPLE SELECT */}
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
-                </Item>
-            </Form>
+          <ScrollView>
+              <Form style={ styles.form }>
+                  <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                      <Input autoCapitalize='none' 
+                            clearButtonMode='while-editing' 
+                            textContentType="emailAddress" 
+                            placeholder="email address" 
+                            placeholderTextColor="black" 
+                            onChangeText={(email) => this.setState({email})}
+                            style={ styles.input } />
+                  </Item>
+                  <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                      <Input secureTextEntry={true} 
+                            clearButtonMode='while-editing' 
+                            textContentType="password" 
+                            placeholder="password" 
+                            placeholderTextColor="black" 
+                            onChangeText={(password1) => this.setState({password1})}
+                            style={ styles.input } />
+                  </Item>
+                  <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                      <Input secureTextEntry={true} 
+                            clearButtonMode='while-editing' 
+                            textContentType="password" 
+                            placeholder="re-enter password" 
+                            placeholderTextColor="black" 
+                            onChangeText={(password2) => this.setState({password2})}
+                            style={ styles.input } />
+                  </Item>
+                  {/* ADD ANOTHER ITEM HERE FOR THE MULTIPLE SELECT */}
+                  <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                      <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
+                  </Item>
+              </Form>
+            </ScrollView>
         </KeyboardAvoidingView>
     </Container>
     );
