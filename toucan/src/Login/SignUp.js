@@ -1,7 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, StatusBar, Image, KeyboardAvoidingView, Alert, ScrollView } from 'react-native';
-import { Container, Form, Item, Input, Button } from 'native-base';
+import { Container, Form, Item, Input, Button, Label } from 'native-base';
 import * as firebase from 'firebase';
+import SelectMultiple from 'react-native-select-multiple';
+
+const tagsList = [
+  { label: 'Sports', value: 'sports' },
+  { label: 'Arts and Literature', value: 'arts' },
+  { label: 'Conferences', value: 'conferences' },
+  { label: 'Education', value: 'education' },
+  { label: 'Concerts', value: 'concerts' },
+]
 
 export default class SignUpScreen extends React.Component {
   constructor(props) {
@@ -15,20 +24,20 @@ export default class SignUpScreen extends React.Component {
     });
   }
 
-  writeUserData = (userId, email) => {
+  onSelectionsChange = (tags) => {
+    this.setState({tags});
+  }
+
+  writeUserData = (userId, email, tags) => {
     console.log("\n\n\tTEST: " + userId + " " + email + "\n\n");
 
     firebase.database().ref('/users/' + userId).set({
       email: email,
-      tags: [
-        // MAKE CHANGES HERE
-        'music',
-        'gaming',
-      ]
+      tags: tags,
     });
   }
 
-  signUpUser = (email, password1, password2) => {
+  signUpUser = (email, password1, password2, tags) => {
     if (this.state.password1.length < 8) {
       Alert.alert("Password must be at least 8 characters long.");
       return;
@@ -40,7 +49,7 @@ export default class SignUpScreen extends React.Component {
 
     firebase.auth().createUserWithEmailAndPassword(email, password1).then(() => {
       let curUser = firebase.auth().currentUser;
-      this.writeUserData(curUser.uid, curUser.email);
+      this.writeUserData(curUser.uid, curUser.email, tags);
 
       this.props.navigation.navigate('Login');
     }).catch(error => {Alert.alert(error.message)});
@@ -96,7 +105,18 @@ export default class SignUpScreen extends React.Component {
                   </Item>
                   {/* ADD ANOTHER ITEM HERE FOR THE MULTIPLE SELECT */}
                   <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                      <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
+                    <Label style={ { color: 'black', fontSize: 18 } }>Tags</Label>
+                  </Item>
+                  <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                    <SelectMultiple 
+                        items={tagsList}
+                        selectedItems={this.state.tags}
+                        onSelectionsChange={this.onSelectionsChange}
+                        style={ styles.input }
+                      />
+                  </Item>  
+                  <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                      <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2, this.state.tags)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
                   </Item>
               </Form>
             </ScrollView>
