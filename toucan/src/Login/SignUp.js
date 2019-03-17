@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, StatusBar, Image, KeyboardAvoidingView, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, StatusBar, Dimensions, KeyboardAvoidingView, Alert, ScrollView } from 'react-native';
 import { Container, Form, Item, Input, Button, Label } from 'native-base';
 import * as firebase from 'firebase';
 import SelectMultiple from 'react-native-select-multiple';
+
+const { height } = Dimensions.get('window');
 
 const tagsList = [
   { label: 'Sports', value: 'sports' },
@@ -64,7 +66,7 @@ export default class SignUpScreen extends React.Component {
       fontFamily: 'Ubuntu-B',
       fontWeight: 'bold',
       color: '#ffffff',
-      fontSize: 23,
+      fontSize: 19,
     },
     headerTintColor: "#ffffff",
   };
@@ -114,9 +116,20 @@ export default class SignUpScreen extends React.Component {
                         onSelectionsChange={this.onSelectionsChange}
                         style={ styles.input }
                       />
-                  </Item>  
+                  </Item>
                   <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                      <Button style={styles.signIn} onPress={() => this.signUpUser(this.state.email, this.state.password1, this.state.password2, this.state.tags)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign Up </Text></Button>
+                      <Button 
+                        style={styles.signIn} 
+                        onPress={() => this.signUpUser(
+                                        this.state.email, 
+                                        this.state.password1, 
+                                        this.state.password2, 
+                                        this.state.tags)}>
+                        <Text 
+                          style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> 
+                          Sign Up 
+                        </Text>
+                      </Button>
                   </Item>
               </Form>
             </ScrollView>
@@ -140,8 +153,8 @@ const styles = StyleSheet.create({
     form: {
       top: 8,
       color: 'black',
-      justifyContent: "center", 
       alignItems: "center",
+      height: (4.01*height)/5,
     },
     input: {
       color: '#434343',

@@ -30,7 +30,7 @@ export default class LoginScreen extends React.Component {
       fontFamily: 'Ubuntu-B',
       fontWeight: 'bold',
       color: '#ffffff',
-      fontSize: 23
+      fontSize: 19
     },
     headerTintColor: "#ffffff",
   };
@@ -40,36 +40,36 @@ export default class LoginScreen extends React.Component {
     <Container style={ { backgroundColor: '#E8E8E8' } }>
         <StatusBar backgroundColor="#1E7898" barStyle="light-content" />
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
-            <View style={ styles.imgContent }>
-                <Image source={require('../../assets/V2.png')} style={{width:186, height:136}}/>
-            </View>
+          <View style={ styles.imgContent }>
+              <Image source={require('../../assets/V2.png')} style={{width:186, height:136}}/>
+          </View>
             <Form style={ styles.form }>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Input autoCapitalize='none' 
-                          clearButtonMode='while-editing' 
-                          textContentType="username" 
-                          placeholder="email address" 
-                          placeholderTextColor="black" 
-                          onChangeText={(email) => this.setState({email})}
-                          style={ styles.input } />
-                </Item>
-                <Item style={ { borderColor:'transparent' } }>
-                    <Input secureTextEntry={true} 
-                          clearButtonMode='while-editing' 
-                          textContentType="password" 
-                          placeholder="password" 
-                          placeholderTextColor="black" 
-                          onChangeText={(password) => this.setState({password})}
-                          style={ styles.input } />
-                </Item>
-                <Item style={ { borderColor:'transparent' } }>
-                    <Text style={{fontFamily:'Ubuntu-R', fontSize:15}}>Don't have an account? </Text>
-                    <Button transparent info onPress={() => this.props.navigation.navigate('SignUp')}><Text style={{color:'#55B1C5', fontFamily:'Ubuntu-B', fontSize:15}}>Sign Up</Text></Button>
-                </Item>
-                <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                    <Button style={styles.signIn} onPress={() => this.signInUser(this.state.email, this.state.password)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
-                </Item>
-            </Form>
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                  <Input autoCapitalize='none' 
+                        clearButtonMode='while-editing' 
+                        textContentType="username" 
+                        placeholder="email address" 
+                        placeholderTextColor="black" 
+                        onChangeText={(email) => this.setState({email})}
+                        style={ styles.input } />
+              </Item>
+              <Item style={ { paddingBottom: 15, borderColor:'transparent' } }>
+                  <Input secureTextEntry={true} 
+                        clearButtonMode='while-editing' 
+                        textContentType="password" 
+                        placeholder="password" 
+                        placeholderTextColor="black" 
+                        onChangeText={(password) => this.setState({password})}
+                        style={ styles.input } />
+              </Item>
+              <Item style={ { borderColor:'transparent' } }>
+                  <Button style={styles.signIn} onPress={() => this.signInUser(this.state.email, this.state.password)}><Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Sign In </Text></Button>
+              </Item>
+              <Item style={ { borderColor:'transparent' } }>
+                  <Text style={{fontFamily:'Ubuntu-R', fontSize:15}}>Don't have an account? </Text>
+                  <Button transparent info onPress={() => this.props.navigation.navigate('SignUp')}><Text style={{color:'#55B1C5', fontFamily:'Ubuntu-B', fontSize:15}}>Sign Up</Text></Button>
+              </Item>
+          </Form>
         </KeyboardAvoidingView>
     </Container>
     );

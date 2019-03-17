@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     navTitle: {
       color: 'white',
-      fontSize: 23,
+      fontSize: 19,
       fontFamily: 'Ubuntu-B',
     },
     navButtons: {
