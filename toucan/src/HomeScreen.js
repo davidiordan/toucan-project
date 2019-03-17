@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card, CardItem } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
 import * as firebase from 'firebase';
 
@@ -51,59 +51,25 @@ export default class HomeScreen extends React.Component {
           />
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          {/* will probably end up switching this to FlatList from react-native */}
           <Grid style={{paddingLeft: 5.5}}>
             <Col style={{alignItems: 'center'}}>
               <Card style={styles.cards}>
-                <CardItem>
-                  <Body>
-                    <Text>{this.state.email}</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-              <Card style={styles.cards}>
-                <CardItem>
-                  <Body>
-                    <Text>CARD 3</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-              <Card style={styles.cards}>
-                <CardItem>
-                  <Body>
-                    <Text>CARD 5</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-              <Card style={styles.cards}>
-                <CardItem>
-                  <Body>
-                    <Text>CARD 7</Text>
-                  </Body>
-                </CardItem>
+                <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest') }>
+                  <Text>
+                    {this.state.email}
+                  </Text>
+                </Button>
               </Card>
             </Col>
-            <Col>
+            <Col style={{alignItems: 'center'}}>
               <Card style={styles.cards}>
-                  <CardItem>
-                    <Body>
-                      <Text>CARD 2</Text>
-                    </Body>
-                  </CardItem>
-                </Card>
-                <Card style={styles.cards}>
-                  <CardItem>
-                    <Body>
-                      <Text>CARD 4</Text>
-                    </Body>
-                  </CardItem>
-                </Card>
-                <Card style={styles.cards}>
-                  <CardItem>
-                    <Body>
-                      <Text>CARD 6</Text>
-                    </Body>
-                  </CardItem>
-                </Card>
+                <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest') }>
+                  <Text>
+                    Second Button
+                  </Text>
+                </Button>
+              </Card>
             </Col>
           </Grid>
         </ScrollView>
@@ -141,6 +107,13 @@ const styles = StyleSheet.create({
     cards: {
       width: width / 2.2,
       aspectRatio: 3/4,
+      backgroundColor: 'transparent',
+    },
+    cardBtn: {
+      flex: 1, 
+      width: width / 2.2,
+      justifyContent: 'center',
+      backgroundColor: '#FFFFFF',
     },
     map: {
       borderBottomWidth: 2,
