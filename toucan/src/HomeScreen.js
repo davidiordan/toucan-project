@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
-import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card, CardItem } from 'native-base';
+import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
 import * as firebase from 'firebase';
@@ -23,6 +23,24 @@ export default class HomeScreen extends React.Component {
       this.state.user = curUser;
       this.state.email = this.state.user.email;
     }
+
+    // using a GET request to pull events from database..
+    //    kind of iffy and might be resource intensive
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = (e) => {
+      if (request.readyState !== 4) {
+        return;
+      }
+      if (request.status === 200) {
+        // setting this.state.events to the values from the databse
+        this.state.events = request.responseText;
+      } else {
+        console.warn('error');
+      }
+    };
+
+    request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
+    request.send();
   }
 
   render() {
@@ -51,7 +69,7 @@ export default class HomeScreen extends React.Component {
           />
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          {/* will probably end up switching this to FlatList from react-native */}
+          {/* will probably be switching to FlatList from react-native */}
           <Grid style={{paddingLeft: 5.5}}>
             <Col style={{alignItems: 'center'}}>
               <Card style={styles.cards}>
@@ -62,11 +80,11 @@ export default class HomeScreen extends React.Component {
                 </Button>
               </Card>
             </Col>
-            <Col style={{alignItems: 'center'}}>
+            <Col>
               <Card style={styles.cards}>
                 <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest') }>
                   <Text>
-                    Second Button
+                    CARD 2
                   </Text>
                 </Button>
               </Card>
