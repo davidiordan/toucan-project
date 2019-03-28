@@ -1,18 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
 import * as firebase from 'firebase';
 
 const { width, height } = Dimensions.get('window');
-const database = firebase.database();
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = ({
+      loading: true,
       user: '',
       email: '',
       events: [],
@@ -33,10 +33,43 @@ export default class HomeScreen extends React.Component {
       }
       if (request.status === 200) {
         // setting this.state.events to the values from the databse
-        this.state.events = request.responseText;
+        let events = request.responseText;
+
+        try {
+          let eventsJSON = JSON.parse(events);
+          let result = [];
+          for (var event in eventsJSON) {
+            result.push([event, eventsJSON[event]]);
+          }
+
+          for (var i in result) {
+            let finEvent = {};
+            let singEvent = result[i][1];
+
+            finEvent.uid = result[i][0];
+            finEvent.name = singEvent.name;
+            finEvent.creator = singEvent.creator;
+            finEvent.location = singEvent.location;
+            finEvent.tags = singEvent.tags;
+
+            this.state.events.push(finEvent);
+          }
+
+          // for (var m in this.state.events) {
+          //   console.log(this.state.events[m]);
+          // }
+
+          console.log(this.state.events);
+
+          // this.state.events = result;
+
+        } catch (err) {
+          console.warn(err);
+        }
       } else {
         console.warn('error');
       }
+      this.setState({ loading: false });
     };
 
     request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
@@ -44,6 +77,15 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <Container style={styles.container}>
+          <ActivityIndicator
+            size="large" color="#1E7898"
+          />
+        </Container>
+      )
+    }
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
@@ -70,26 +112,15 @@ export default class HomeScreen extends React.Component {
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {/* will probably be switching to FlatList from react-native */}
-          <Grid style={{paddingLeft: 5.5}}>
-            <Col style={{alignItems: 'center'}}>
-              <Card style={styles.cards}>
-                <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest') }>
-                  <Text>
-                    {this.state.email}
-                  </Text>
-                </Button>
-              </Card>
-            </Col>
-            <Col>
-              <Card style={styles.cards}>
-                <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest') }>
-                  <Text>
-                    CARD 2
-                  </Text>
-                </Button>
-              </Card>
-            </Col>
-          </Grid>
+          {/* will also probably need a componentDidLoad function to wait for the events to populate */}
+          <Text>EVENTS:</Text>
+          <FlatList
+              contentContainerStyle={{paddingLeft:12, flexDirection:'row', flexWrap:'wrap'}}
+              data={this.state.events}
+              renderItem={({ item }) => 
+                <Card style={styles.cards}><Button style={styles.cardBtn}><Text>{item.name}</Text></Button></Card>
+              }
+          />
         </ScrollView>
       </Container>
     );
@@ -97,6 +128,10 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+      alignContent: 'center',
+      justifyContent: 'center',
+    },
     content: {
       paddingTop: 10,
       paddingBottom: 35,

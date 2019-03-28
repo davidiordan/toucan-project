@@ -4,6 +4,8 @@ import { Icon, Button, Container, Header, Left, Title, Body, Right, Form, Item, 
 import * as firebase from 'firebase';
 import SelectMultiple from 'react-native-select-multiple';
 
+const { height } = Dimensions.get('window');
+
 const uuidv1 = require('uuid/v1');
 
 const tagsList = [
@@ -141,8 +143,8 @@ const styles = StyleSheet.create({
     form: {
       top: 8,
       color: 'black',
-      justifyContent: "center", 
       alignItems: "center",
+      height: (3.05*height)/5,
     },
     input: {
       color: '#434343',
