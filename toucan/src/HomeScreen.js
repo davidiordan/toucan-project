@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
-import { Col, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
 import * as firebase from 'firebase';
 
@@ -78,9 +77,34 @@ export default class HomeScreen extends React.Component {
 
   render() {
     if (this.state.loading) {
+      // not a fan of having two different render containers
+      //    here that do the same minus the loading indicator
       return (
-        <Container style={styles.container}>
+        <Container style={{ backgroundColor: '#e8e8e8' }}>
+          <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
+              <Left style={ styles.navButtons }>
+                <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
+              </Left>
+              <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
+                <Title style={styles.navTitle}>Home</Title>
+              </Body>
+              <Right style={ styles.navButtons }>
+                <Icon name="ios-add" onPress={() => this.props.navigation.navigate("AddEvent")} style={styles.rightIcon} />
+              </Right>
+          </Header>
+          <View style={styles.map}>
+            <MapView 
+              style={{width: width, height: height / 3}}
+              initialRegion={{
+                latitude: 38.971668,
+                longitude: -95.235252,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0424,
+              }}
+            />
+          </View>
           <ActivityIndicator
+            style={{ paddingTop: 200, }}
             size="large" color="#1E7898"
           />
         </Container>
@@ -112,14 +136,18 @@ export default class HomeScreen extends React.Component {
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {/* will probably be switching to FlatList from react-native */}
-          {/* will also probably need a componentDidLoad function to wait for the events to populate */}
-          <Text>EVENTS:</Text>
           <FlatList
-              contentContainerStyle={{paddingLeft:12, flexDirection:'row', flexWrap:'wrap'}}
+              contentContainerStyle={{paddingLeft: 6, flexDirection:'row', flexDirection:'column', justifyContent:'space-around'}}
+              numColumns={2}
               data={this.state.events}
               renderItem={({ item }) => 
-                <Card style={styles.cards}><Button style={styles.cardBtn}><Text>{item.name}</Text></Button></Card>
+                <Card style={styles.cards}>
+                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest')}>
+                    <Text>{item.name}</Text>
+                  </Button>
+                </Card>
               }
+              keyExtractor={(item, index) => index.toString()}
           />
         </ScrollView>
       </Container>
@@ -161,6 +189,8 @@ const styles = StyleSheet.create({
       width: width / 2.2,
       aspectRatio: 3/4,
       backgroundColor: 'transparent',
+      marginRight: 10,
+      paddingBottom: 2,
     },
     cardBtn: {
       flex: 1, 
