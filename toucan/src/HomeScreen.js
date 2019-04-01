@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
+import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import * as firebase from 'firebase';
 
@@ -15,6 +16,8 @@ export default class HomeScreen extends React.Component {
       user: '',
       email: '',
       events: [],
+      location: null,
+      errorMessage: null
     });
 
     let curUser = firebase.auth().currentUser;
@@ -71,8 +74,21 @@ export default class HomeScreen extends React.Component {
       this.setState({ loading: false });
     };
 
+    _getLocationAsync = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+	this.setState({
+	  errorMessage: 'Permission to access location was denied',
+	});
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ location });
+    };
+
     request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
     request.send();
+    _getLocationAsync();
   }
 
   render() {
@@ -110,6 +126,12 @@ export default class HomeScreen extends React.Component {
         </Container>
       )
     }
+    let text = 'Waiting..';
+    if (this.state.errorMessage) {
+      text = this.state.errorMessage;
+    } else if (this.state.location) {
+      text = JSON.stringify(this.state.location);
+    }
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
@@ -133,6 +155,9 @@ export default class HomeScreen extends React.Component {
               longitudeDelta: 0.0424,
             }}
           />
+	  <View style={styles.container}>
+	    <Text style={styles.paragraph}>{text}</Text>
+	  </View>
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {/* will probably be switching to FlatList from react-native */}
