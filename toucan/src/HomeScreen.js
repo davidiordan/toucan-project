@@ -155,9 +155,9 @@ export default class HomeScreen extends React.Component {
               longitudeDelta: 0.0424,
             }}
           />
-	  <View style={styles.container}>
-	    <Text style={styles.paragraph}>{text}</Text>
-	  </View>
+        <View style={styles.container}>
+          <Text style={styles.paragraph}>{text}</Text>
+        </View>
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {/* will probably be switching to FlatList from react-native */}
