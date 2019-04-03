@@ -9,6 +9,7 @@ import NestScreen from '../NestScreen';
 import LoginScreen from "../Login/Login"
 import SignUpScreen from "../Login/SignUp";
 import AddEventScreen from "../Events/AddEvent";
+import ChatScreen from "../Chat/ChatScreen";
 
 export default class Navigator extends React.Component {
   render() {
@@ -27,6 +28,7 @@ const CustomDrawerComponent = (props) => (
 const LeftDrawerNav = createDrawerNavigator ({
   Home: HomeScreen,
   Nest: NestScreen,
+  Chat: ChatScreen,
 }, {
   contentComponent: CustomDrawerComponent,
   contentOptions: {

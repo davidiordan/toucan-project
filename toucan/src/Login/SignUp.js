@@ -30,12 +30,13 @@ export default class SignUpScreen extends React.Component {
     this.setState({tags});
   }
 
-  writeUserData = (userId, email, tags) => {
+  writeUserData = (userId, email, tags, username) => {
     console.log("\n\n\tTEST: " + userId + " " + email + "\n\n");
 
     firebase.database().ref('/users/' + userId).set({
       email: email,
       tags: tags,
+      username: username,
     });
   }
 
@@ -49,9 +50,12 @@ export default class SignUpScreen extends React.Component {
       return;
     }
 
+    var rug = require('random-username-generator');
+    var username = rug.generate();
+
     firebase.auth().createUserWithEmailAndPassword(email, password1).then(() => {
       let curUser = firebase.auth().currentUser;
-      this.writeUserData(curUser.uid, curUser.email, tags);
+      this.writeUserData(curUser.uid, curUser.email, tags, username);
       // below line is just a test
       // firebase.auth().currentUser.sendEmailVerification();
 
