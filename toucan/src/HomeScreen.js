@@ -167,7 +167,7 @@ export default class HomeScreen extends React.Component {
               data={this.state.events}
               renderItem={({ item }) => 
                 <Card style={styles.cards}>
-                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest', {item.uid})}>
+                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest', {Selected_Event: item.uid})}>
                     <Text>{item.name}</Text>
                   </Button>
                 </Card>
@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
     },
     rightIcon: {
       color: 'white',
-      right: 10,
+      right: 10,.uid})}>
+
     },
     navTitle: {
       color: 'white',
