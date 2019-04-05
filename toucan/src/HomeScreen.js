@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
 import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
@@ -17,7 +17,7 @@ export default class HomeScreen extends React.Component {
       email: '',
       events: [],
       location: null,
-      errorMessage: null
+      errorMessage: null,
     });
 
     let curUser = firebase.auth().currentUser;
@@ -77,18 +77,23 @@ export default class HomeScreen extends React.Component {
     _getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status !== 'granted') {
-	this.setState({
-	  errorMessage: 'Permission to access location was denied',
-	});
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      this.setState({ location });
+
+      let locObj = {
+        "latitude": location.coords.latitude,
+        "longitude": location.coords.longitude,
+      }
+      this.setState({ location: locObj });
     };
 
+    _getLocationAsync();
     request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
     request.send();
-    _getLocationAsync();
   }
 
   render() {
@@ -108,19 +113,8 @@ export default class HomeScreen extends React.Component {
                 <Icon name="ios-add" onPress={() => this.props.navigation.navigate("AddEvent")} style={styles.rightIcon} />
               </Right>
           </Header>
-          <View style={styles.map}>
-            <MapView 
-              style={{width: width, height: height / 3}}
-              initialRegion={{
-                latitude: 38.971668,
-                longitude: -95.235252,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0424,
-              }}
-            />
-          </View>
           <ActivityIndicator
-            style={{ paddingTop: 200, }}
+            style={{ paddingTop: height/2, }}
             size="large" color="#1E7898"
           />
         </Container>
@@ -149,15 +143,12 @@ export default class HomeScreen extends React.Component {
           <MapView 
             style={{width: width, height: height / 3}}
             initialRegion={{
-              latitude: 38.971668,
-              longitude: -95.235252,
+              latitude: this.state.location.latitude,
+              longitude: this.state.location.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0424,
             }}
           />
-        <View style={styles.container}>
-          <Text style={styles.paragraph}>{text}</Text>
-        </View>
         </View>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {/* will probably be switching to FlatList from react-native */}

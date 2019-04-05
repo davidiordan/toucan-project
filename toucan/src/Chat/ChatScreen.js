@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 // 1.
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
-import { StyleSheet, Text, View, StatusBar, Image, KeyboardAvoidingView, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Alert, SafeAreaView } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
 
 
@@ -73,7 +73,7 @@ class Chat extends React.Component {
 
   on = callback => 
     this.ref  
-      . limitToLast(20).on('child_added', snapshot => callback(this.parse(snapshot)));
+      . limitToLast(40).on('child_added', snapshot => callback(this.parse(snapshot)));
       get timestamp(){
         return firebase.database.ServerValue.TIMESTAMP;
       }
@@ -121,12 +121,11 @@ class Chat extends React.Component {
           {/* </Container> */}
         </Header>
         <GiftedChat
-        messages={this.state.messages}
-        onSend = {this.send}
-        user={this.user}
-        renderBubble = {this.renderBubble}
-        
-      />
+          messages={this.state.messages}
+          onSend = {this.send}
+          user={this.user}
+          renderBubble = {this.renderBubble}
+        />
       </Container>
     );
   }
