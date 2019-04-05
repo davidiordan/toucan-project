@@ -167,7 +167,7 @@ export default class HomeScreen extends React.Component {
               data={this.state.events}
               renderItem={({ item }) => 
                 <Card style={styles.cards}>
-                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest')}>
+                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest', {item.uid})}>
                     <Text>{item.name}</Text>
                   </Button>
                 </Card>
