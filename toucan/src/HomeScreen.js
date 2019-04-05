@@ -71,29 +71,40 @@ export default class HomeScreen extends React.Component {
       } else {
         console.warn('error');
       }
+
       this.setState({ loading: false });
     };
 
     _getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status !== 'granted') {
-        this.setState({
-          errorMessage: 'Permission to access location was denied',
-        });
-      }
+        this.setState({errorMessage: 'Permission to access location was denied'});
 
-      let location = await Location.getCurrentPositionAsync({});
+        let topLoc = {
+          "latitude": 39.0473,
+          "longitude": -95.6751,
+        }
+        
+        this.setState({location: topLoc})
+      } else {
+        let location = await Location.getCurrentPositionAsync({});
 
-      let locObj = {
-        "latitude": location.coords.latitude,
-        "longitude": location.coords.longitude,
+        let locObj = {
+          "latitude": location.coords.latitude,
+          "longitude": location.coords.longitude,
+        }
+        this.setState({ location: locObj });
       }
-      this.setState({ location: locObj });
+      
+      request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
+      request.send();
+
+      // this.setState({ loading: false });
     };
 
     _getLocationAsync();
-    request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
-    request.send();
+    // request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
+    // request.send();
   }
 
   render() {
