@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     },
     rightIcon: {
       color: 'white',
-      right: 10,.uid})}>
+      right: 10,
 
     },
     navTitle: {
