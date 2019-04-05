@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 // 1.
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
 import { StyleSheet, Alert, SafeAreaView } from 'react-native';
