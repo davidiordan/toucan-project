@@ -1,12 +1,11 @@
-import React from 'react';.uid})}>
-
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';.uid})}>
-
+import React from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native'
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right } from 'native-base';
 
+const eventID = this.props.navigation.state.params.Selected_Event;
+console.log(eventID);
+
 export default class NestScreen extends React.Component {
-  let eventID = this.props.navigation.state.params.Selected_Event;
-  console log(eventID);
   render() {
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
