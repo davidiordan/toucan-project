@@ -125,7 +125,7 @@ export default class HomeScreen extends React.Component {
               </Right>
           </Header>
           <ActivityIndicator
-            style={{ paddingTop: height/2, }}
+            style={{ paddingTop: height/2.6, }}
             size="large" color="#1E7898"
           />
         </Container>
