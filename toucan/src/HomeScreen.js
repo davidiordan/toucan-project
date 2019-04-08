@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { AppRegistry, Animated, Image, StyleSheet, Text, View, Dimensions, ScrollView, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
 import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
@@ -16,8 +16,45 @@ export default class HomeScreen extends React.Component {
       user: '',
       email: '',
       events: [],
-      location: null,
+      location: {
+          latitude: 45.521016,
+          longitude: -122.6561917,
+        },
       errorMessage: null,
+      markers: [
+	{
+	  coordinate: {
+	    latitude: 37.827897,
+	    longitude: -122.372439,
+	  },
+	  title: "best place",
+	  description: "This is the best place in Portland",
+	},
+	{
+	  coordinate: {
+	    latitude: 37.795204,
+	    longitude:  -122.464502,
+	  },
+	  title: "Second Best Place",
+	  description: "This is the second best place in Portland",
+	},
+	{
+	  coordinate: {
+	    latitude: 37.784432,
+	    longitude: -122.410301,
+	  },
+	  title: "Third Best Place",
+	  description: "This is the third best place in Portland",
+	},
+	{
+	  coordinate: {
+	    latitude:  37.818269,
+	    longitude: -122.478967,
+	  },
+	  title: "Fourth Best Place",
+	  description: "This is the fourth best place in Portland",
+	},
+      ],
     });
 
     let curUser = firebase.auth().currentUser;
@@ -150,6 +187,8 @@ export default class HomeScreen extends React.Component {
               <Icon name="ios-add" onPress={() => this.props.navigation.navigate("AddEvent")} style={styles.rightIcon} />
             </Right>
         </Header>
+
+
         <View style={styles.map}>
           <MapView 
             style={{width: width, height: height / 3}}
@@ -159,8 +198,20 @@ export default class HomeScreen extends React.Component {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0424,
             }}
-          />
+          >
+	    {this.state.markers.map((marker, index) => {
+	      return (
+		<MapView.Marker key={index} coordinate={marker.coordinate}>
+		  <Animated.View style={[styles.markerWrap]}>
+		    <Animated.View style={[styles.ring]} />
+		    <View style={styles.marker} />
+		  </Animated.View>
+		</MapView.Marker>
+	      );
+	    })}
+	  </MapView>
         </View>
+     
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {/* will probably be switching to FlatList from react-native */}
           <FlatList
@@ -229,5 +280,24 @@ const styles = StyleSheet.create({
     map: {
       borderBottomWidth: 2,
       borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-    }
+    },
+    markerWrap: {
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    marker: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: "rgba(130,4,150, 0.9)",
+    },
+    ring: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      backgroundColor: "rgba(130,4,150, 0.3)",
+      position: "absolute",
+      borderWidth: 1,
+      borderColor: "rgba(130,4,150, 0.5)",
+  },
   });
