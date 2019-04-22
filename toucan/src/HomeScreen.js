@@ -39,6 +39,7 @@ export default class HomeScreen extends React.Component {
 	  },
 	  title: "best place",
 	  description: "This is the best place in Portland",
+	  image: Images[0],
 	},
 	{
 	  coordinate: {
@@ -47,6 +48,7 @@ export default class HomeScreen extends React.Component {
 	  },
 	  title: "Second Best Place",
 	  description: "This is the second best place in Portland",
+	  image: Images[1],
 	},
 	{
 	  coordinate: {
@@ -55,6 +57,7 @@ export default class HomeScreen extends React.Component {
 	  },
 	  title: "Third Best Place",
 	  description: "This is the third best place in Portland",
+	  image: Images[2],
 	},
 	{
 	  coordinate: {
@@ -63,6 +66,7 @@ export default class HomeScreen extends React.Component {
 	  },
 	  title: "Fourth Best Place",
 	  description: "This is the fourth best place in Portland",
+	  image: Images[3],
 	},
       ],
     });
@@ -152,6 +156,11 @@ export default class HomeScreen extends React.Component {
     _getLocationAsync();
     // request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
     // request.send();
+  }
+
+  componentWillMount() {
+    this.index = 0;
+    this.animation = new Animated.Value(0);
   }
 
   render() {
@@ -359,3 +368,4 @@ const styles = StyleSheet.create({
       borderColor: "rgba(130,4,150, 0.5)",
   },
   });
+
