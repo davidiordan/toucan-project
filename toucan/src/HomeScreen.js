@@ -30,8 +30,8 @@ export default class HomeScreen extends React.Component {
       email: '',
       events: [],
       location: {
-          latitude: 45.521016,
-          longitude: -122.6561917,
+          latitude: 38.9717,
+          longitude: -95.2353,
         },
       errorMessage: null,
       markers: [
@@ -40,7 +40,7 @@ export default class HomeScreen extends React.Component {
 	    latitude: 37.827897,
 	    longitude: -122.372439,
 	  },
-	  title: "best place",
+	  title: "Fintech Friday",
 	  description: "This is the best place in Portland",
 	  image: Images[0],
 	},
@@ -72,6 +72,10 @@ export default class HomeScreen extends React.Component {
 	  image: Images[3],
 	},
       ],
+      region: {
+	latitudeDelta: 0.04864195044303443,
+	longitudeDelta: 0.040142817690068,
+      },
     });
 
 
@@ -169,6 +173,36 @@ export default class HomeScreen extends React.Component {
       this.animation = new Animated.Value(0);
   }
 
+  componentDidMount() {
+    // We should detect when scrolling has stopped then animate
+    // We should just debounce the event listener here
+    this.animation.addListener(({ value }) => {
+      let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
+      if (index >= this.state.markers.length) {
+        index = this.state.markers.length - 1;
+      }
+      if (index <= 0) {
+        index = 0;
+      }
+
+      clearTimeout(this.regionTimeout);
+      this.regionTimeout = setTimeout(() => {
+        if (this.index !== index) {
+          this.index = index;
+          const { coordinate } = this.state.markers[index];
+          this.map.animateToRegion(
+            {
+              ...coordinate,
+              latitudeDelta: this.state.region.latitudeDelta,
+              longitudeDelta: this.state.region.longitudeDelta,
+            },
+            350
+          );
+        }
+      }, 10);
+    });
+  }
+
    render() {
 
     const interpolations = this.state.markers.map((marker, index) => {
@@ -234,15 +268,16 @@ export default class HomeScreen extends React.Component {
         </Header>
 
 
-        <View style={styles.map}>
+        <View style={styles.container}>
           <MapView 
-            style={{width: width, height: height / 3}}
+	    ref={map => this.map = map}
             initialRegion={{
               latitude: this.state.location.latitude,
               longitude: this.state.location.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0424,
             }}
+	    style={styles.container}
           >
 	    {this.state.markers.map((marker, index) => {
 	      const scaleStyle = {
@@ -268,7 +303,6 @@ export default class HomeScreen extends React.Component {
         </View>
 
 
-	
 	<Animated.ScrollView
 	  horizontal
 	  scrollEventThrottle={1}
@@ -307,22 +341,6 @@ export default class HomeScreen extends React.Component {
 
 	</Animated.ScrollView>
      
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          {/* will probably be switching to FlatList from react-native */}
-          <FlatList
-              contentContainerStyle={{paddingLeft: 6, flexDirection:'row', flexDirection:'column', justifyContent:'space-around'}}
-              numColumns={2}
-              data={this.state.events}
-              renderItem={({ item }) => 
-                <Card style={styles.cards}>
-                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest', {Selected_Event: item.uid})}>
-                    <Text>{item.name}</Text>
-                  </Button>
-                </Card>
-              }
-              keyExtractor={(item, index) => index.toString()}
-          />
-        </ScrollView>
       </Container>
     );
   }
@@ -338,19 +356,17 @@ const styles = StyleSheet.create({
 
     scrollView: {
       position: "absolute",
-      bottom: 30,
-      left: 0,
-      right: 0,
-      paddingVertical: 10,
+      bottom: 10,
+      paddingVertical: 0,
     },
     endPadding: {
       paddingRight: width - CARD_WIDTH,
     },
     card: {
-      padding: 10,
+      padding: 0,
       elevation: 2,
       backgroundColor: "#FFF",
-      marginHorizontal: 10,
+      marginHorizontal: 0,
       shadowColor: "#000",
       shadowRadius: 5,
       shadowOpacity: 0.3,
@@ -382,8 +398,8 @@ const styles = StyleSheet.create({
 
 
     content: {
-      paddingTop: 10,
-      paddingBottom: 35,
+      paddingTop: 0,
+      paddingBottom: 0,
       alignItems: 'center',
       backgroundColor: '#e8e8e8',
     },
