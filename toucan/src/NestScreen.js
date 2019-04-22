@@ -32,7 +32,7 @@ class NestScreen extends React.Component {
         </Header>
         
         <Content contentContainerStyle={styles.content}>
-          <Text>Nest Screen</Text>
+          <Text>Chat Screen</Text>
         </Content>
       </Container>
     );
@@ -62,14 +62,9 @@ class VendorScreen extends React.Component {
         </Header>
         
         <Content contentContainerStyle={styles.content}>
-          <Grid>
+          <Grid style={styles.vendorGrid}>
             <Col>
-              <Card>
-                <Text>//</Text>
-              </Card>
-            </Col>
-            <Col>
-              <Card>
+              <Card style={styles.vendorCard}>
                 <Text>//</Text>
               </Card>
             </Col>
@@ -80,10 +75,65 @@ class VendorScreen extends React.Component {
   }
 }
 
+class InfoScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <Container style={{ backgroundColor: '#e8e8e8' }}>
+        <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
+          {/* <Container style={ styles.navButtons }> */}
+            <Left style={ styles.navButtons }>
+              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
+            </Left>
+            <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
+              <Title style={styles.navTitle}>Fintech</Title>
+            </Body>
+            <Right style={ styles.navButtons }>
+              {/* Empty */}
+            </Right>
+          {/* </Container> */}
+        </Header>
+        
+        <Content contentContainerStyle={styles.content}>
+          <Grid style={styles.vendorGrid}>
+            <Col>
+              <Card style={styles.vendorCard}>
+                <Title>Fintech Friday Info</Title>
+                <Body><Text>Words</Text></Body>
+              </Card>
+              <Card style={styles.vendorLoc}>
+                <Title>Location</Title>
+                <Body><Text>Words</Text></Body>
+              </Card>
+            </Col>
+          </Grid>
+        </Content>
+      </Container>
+    );
+  }
+}
+
 const TabNavigator = createBottomTabNavigator({
-  Nest: NestScreen, 
-  Vendor: VendorScreen,
-})
+  Chat: NestScreen, 
+  Info: InfoScreen,
+  Vendors: VendorScreen,
+},{
+  initialRouteName: 'Chat',
+  tabBarOptions: {
+    activeTintColor: '#1E7898',
+    inactiveTintColor: 'black',
+    labelStyle: {
+      fontSize: 15, 
+      fontFamily: 'Ubuntu-R',
+    },
+    style: {
+      backgroundColor: '#F8F8F8',
+    },
+  },
+});
 
 export default createAppContainer(TabNavigator);
 
@@ -108,5 +158,21 @@ const styles = StyleSheet.create({
     },
     navButtons: {
       flex: 1,
-    }
-  });
+    },
+    vendorGrid: {
+      paddingTop: 5,
+      paddingLeft: 7,
+    },
+    vendorCard: {
+      width: width * 0.95,
+      height: height / 3,
+      borderRadius: 15,
+      paddingTop: 8
+    },
+    vendorLoc: {
+      width: width * 0.95,
+      height: height / 9,
+      borderRadius: 15,
+      paddingTop: 8
+    },
+});
