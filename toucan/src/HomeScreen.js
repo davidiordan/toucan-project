@@ -8,10 +8,10 @@ import * as firebase from 'firebase';
 const { width, height } = Dimensions.get('window');
 
 const Images = [
-  { uri: "https://i.imgur.com/sNam9iJ.jpg" },
-  { uri: "https://i.imgur.com/N7rlQYt.jpg" },
-  { uri: "https://i.imgur.com/UDrH0wm.jpg" },
-  { uri: "https://i.imgur.com/Ka8kNST.jpg" }
+  { uri: "https://gcn.com/~/media/GIG/EDIT_SHARED/Blockchain/fintech.png" },
+  { uri: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F56848091%2F255902149002%2F1%2Foriginal.20190214-231212?w=800&auto=compress&rect=9%2C141%2C1296%2C648&s=a46da236fcc067725c34f826871fba02" },
+  { uri: "https://cdn-images-1.medium.com/max/2600/1*JAJ910fg52ODIRZjHXASBQ.png" },
+  { uri: "http://www.dlrgroup.com/media/733355/75-00008-12_moscone-center_dlr-group_marquee-0.jpg" }
 ]
 
 const CARD_HEIGHT = height / 4;
@@ -41,7 +41,7 @@ export default class HomeScreen extends React.Component {
 	    longitude: -122.372439,
 	  },
 	  title: "Fintech Friday",
-	  description: "This is the best place in Portland",
+	  description: "Social Mixer",
 	  image: Images[0],
 	},
 	{
@@ -49,8 +49,8 @@ export default class HomeScreen extends React.Component {
 	    latitude: 37.795204,
 	    longitude:  -122.464502,
 	  },
-	  title: "Second Best Place",
-	  description: "This is the second best place in Portland",
+	  title: "BUIDL SF",
+	  description: "Blockchain Hackathon",
 	  image: Images[1],
 	},
 	{
@@ -58,8 +58,8 @@ export default class HomeScreen extends React.Component {
 	    latitude: 37.784432,
 	    longitude: -122.410301,
 	  },
-	  title: "Third Best Place",
-	  description: "This is the third best place in Portland",
+	  title: "DockerCon",
+	  description: "Select topics on Docker",
 	  image: Images[2],
 	},
 	{
@@ -67,8 +67,8 @@ export default class HomeScreen extends React.Component {
 	    latitude:  37.818269,
 	    longitude: -122.478967,
 	  },
-	  title: "Fourth Best Place",
-	  description: "This is the fourth best place in Portland",
+	  title: "2019 SF Career Fair",
+	  description: "Meet Tech Companies that are hiring",
 	  image: Images[3],
 	},
       ],
@@ -325,11 +325,11 @@ export default class HomeScreen extends React.Component {
 	>
 	  {this.state.markers.map((marker, index) => (
             <View style={styles.card} key={index}>
-              <Image
-                source={marker.image}
-                style={styles.cardImage}
-                resizeMode="cover"
-              />
+		<Image
+		  source={marker.image}
+		  style={styles.cardImage}
+		  resizeMode="cover"
+		/>
               <View style={styles.textContent}>
                 <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
                 <Text numberOfLines={1} style={styles.cardDescription}>
@@ -340,6 +340,25 @@ export default class HomeScreen extends React.Component {
           ))}
 
 	</Animated.ScrollView>
+
+	{/*
+	<ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <FlatList
+              contentContainerStyle={{paddingLeft: 6, flexDirection:'row', flexDirection:'column', justifyContent:'space-around'}}
+              numColumns={2}
+              data={this.state.events}
+              renderItem={({ item }) =>  
+                <Card style={styles.cards}>
+                  <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest', {Selected_Event: item.uid})}>
+                    <Text>{item.name}</Text>
+                  </Button>
+                </Card>
+              }   
+              keyExtractor={(item, index) => index.toString()}
+          />  
+        </ScrollView>
+      */}
+
      
       </Container>
     );
@@ -398,8 +417,7 @@ const styles = StyleSheet.create({
 
 
     content: {
-      paddingTop: 0,
-      paddingBottom: 0,
+      bottom: 10,
       alignItems: 'center',
       backgroundColor: '#e8e8e8',
     },
