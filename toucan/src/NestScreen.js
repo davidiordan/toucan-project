@@ -1,13 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native'
-import { Icon, Button, Container, Header, Content, Left, Title, Body, Right } from 'native-base';
+import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { Col, Grid } from 'react-native-easy-grid';
 
-export default class NestScreen extends React.Component {
+const { width, height } = Dimensions.get('window');
+
+class NestScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const eventID = this.props.navigation.state.params.Selected_Event;
-    console.log(eventID);
+    // const eventID = this.props.navigation.state.params.Selected_Event;
+    // console.log(eventID);
   }
 
   render() {
@@ -19,7 +23,7 @@ export default class NestScreen extends React.Component {
               <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
             </Left>
             <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
-              <Title style={styles.navTitle}>Nest</Title>
+              <Title style={styles.navTitle}>Fintech</Title>
             </Body>
             <Right style={ styles.navButtons }>
               {/* Empty */}
@@ -34,6 +38,54 @@ export default class NestScreen extends React.Component {
     );
   }
 }
+
+class VendorScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <Container style={{ backgroundColor: '#e8e8e8' }}>
+        <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
+          {/* <Container style={ styles.navButtons }> */}
+            <Left style={ styles.navButtons }>
+              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
+            </Left>
+            <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
+              <Title style={styles.navTitle}>Fintech</Title>
+            </Body>
+            <Right style={ styles.navButtons }>
+              {/* Empty */}
+            </Right>
+          {/* </Container> */}
+        </Header>
+        
+        <Content contentContainerStyle={styles.content}>
+          <Grid>
+            <Col>
+              <Card>
+                <Text>//</Text>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <Text>//</Text>
+              </Card>
+            </Col>
+          </Grid>
+        </Content>
+      </Container>
+    );
+  }
+}
+
+const TabNavigator = createBottomTabNavigator({
+  Nest: NestScreen, 
+  Vendor: VendorScreen,
+})
+
+export default createAppContainer(TabNavigator);
 
 const styles = StyleSheet.create({
     content: {

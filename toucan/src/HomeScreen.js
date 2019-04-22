@@ -320,11 +320,13 @@ export default class HomeScreen extends React.Component {
           >
             {this.state.markers.map((marker, index) => (
               <View style={styles.card} key={index}>
+                <Button style={styles.cardBtnImage} onPress={() => this.props.navigation.navigate("Nest")}>
                 <Image
                   source={marker.image}
                   style={styles.cardImage}
                   resizeMode="cover"
                 />
+                </Button>
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
                   <Text numberOfLines={1} style={styles.cardDescription}>
@@ -397,6 +399,13 @@ const styles = StyleSheet.create({
       height: CARD_HEIGHT,
       width: CARD_WIDTH,
       overflow: "hidden",
+    },
+    cardBtnImage: {
+      flex: 3,
+      width: "100%",
+      height: "100%",
+      alignSelf: "center",
+      backgroundColor: 'transparent'
     },
     cardImage: {
       flex: 3,
