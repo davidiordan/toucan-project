@@ -12,6 +12,7 @@ const tagsList = [
   { label: 'Conferences', value: 'conferences' },
   { label: 'Education', value: 'education' },
   { label: 'Concerts', value: 'concerts' },
+  { label: 'Technology', value: 'tech' },
 ]
 
 export default class SignUpScreen extends React.Component {

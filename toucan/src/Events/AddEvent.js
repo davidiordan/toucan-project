@@ -14,6 +14,7 @@ const tagsList = [
   { label: 'Conferences', value: 'conferences' },
   { label: 'Education', value: 'education' },
   { label: 'Concerts', value: 'concerts' },
+  { label: 'Technology', value: 'tech' },
 ]
 
 // test location for adding dummy events
@@ -32,7 +33,8 @@ export default class AddEventScreen extends React.Component {
         latitude: '',
         longitude: '',
       },
-      tags: []
+      tags: [],
+      description: '',
     });
   }
 
@@ -40,7 +42,7 @@ export default class AddEventScreen extends React.Component {
     this.setState({tags});
   }
   
-  addEvent = (name, location, tags) => {
+  addEvent = (name, location, tags, desc) => {
     let eventUID = uuidv1().replace(/-/g, "");
     // testing code
     console.log("\n\n\t UUID: " + eventUID + "\n\n");
@@ -51,6 +53,7 @@ export default class AddEventScreen extends React.Component {
       name: name,
       location: location,
       tags: tags,
+      description: desc,
     });
 
     this.props.navigation.navigate('Home');
@@ -92,6 +95,15 @@ export default class AddEventScreen extends React.Component {
                         style={ styles.input } />
               </Item>
               <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
+                  <Input autoCapitalize='none' 
+                        clearButtonMode='while-editing' 
+                        textContentType="name" 
+                        placeholder="Event Description" 
+                        placeholderTextColor="black" 
+                        onChangeText={(description) => this.setState({description})}
+                        style={ styles.inputDesc } />
+              </Item>
+              <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                 <Label style={ { color: 'black', fontSize: 18 } }>Tags</Label>
               </Item>
               {/* ADD ANOTHER ITEM HERE FOR THE MULTIPLE SELECT */}
@@ -104,7 +116,7 @@ export default class AddEventScreen extends React.Component {
                   />
               </Item>            
               <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
-                  <Button style={styles.addEvent} onPress={() => this.addEvent(this.state.name, testLoc, this.state.tags)}>
+                  <Button style={styles.addEvent} onPress={() => this.addEvent(this.state.name, testLoc, this.state.tags, this.state.description)}>
                     <Text style={{color:'white', fontWeight:"bold", fontFamily:"Ubuntu-B", fontSize: 20}}> Add Event </Text>
                   </Button>
               </Item>
@@ -154,6 +166,15 @@ const styles = StyleSheet.create({
       borderColor: '#E8E5E5',
       right: 7,
       paddingLeft: 10
+    },
+    inputDesc: {
+      color: '#434343',
+      backgroundColor: 'white',
+      borderRadius: 15,
+      borderWidth: 2,
+      borderColor: '#E8E5E5',
+      right: 7,
+      paddingLeft: 10,
     },
     addEvent: {
       width: 200,
