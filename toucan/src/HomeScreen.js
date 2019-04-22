@@ -7,6 +7,16 @@ import * as firebase from 'firebase';
 
 const { width, height } = Dimensions.get('window');
 
+const Images = [
+  { uri: "https://i.imgur.com/sNam9iJ.jpg" },
+  { uri: "https://i.imgur.com/N7rlQYt.jpg" },
+  { uri: "https://i.imgur.com/UDrH0wm.jpg" },
+  { uri: "https://i.imgur.com/Ka8kNST.jpg" }
+]
+
+const CARD_HEIGHT = height / 4;
+const CARD_WIDTH = CARD_HEIGHT - 50;
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -237,7 +247,55 @@ const styles = StyleSheet.create({
     container: {
       alignContent: 'center',
       justifyContent: 'center',
+      flex: 1,
     },
+
+
+    scrollView: {
+      position: "absolute",
+      bottom: 30,
+      left: 0,
+      right: 0,
+      paddingVertical: 10,
+    },
+    endPadding: {
+      paddingRight: width - CARD_WIDTH,
+    },
+    card: {
+      padding: 10,
+      elevation: 2,
+      backgroundColor: "#FFF",
+      marginHorizontal: 10,
+      shadowColor: "#000",
+      shadowRadius: 5,
+      shadowOpacity: 0.3,
+      shadowOffset: { x: 2, y: -2 },
+      height: CARD_HEIGHT,
+      width: CARD_WIDTH,
+      overflow: "hidden",
+    },
+    cardImage: {
+      flex: 3,
+      width: "100%",
+      height: "100%",
+      alignSelf: "center",
+    },
+    textContent: {
+      flex: 1,
+    },
+    cardtitle: {
+      fontSize: 12,
+      marginTop: 5,
+      fontWeight: "bold",
+    },
+    cardDescription: {
+      fontSize: 12,
+      color: "#444",
+    },
+
+
+
+
     content: {
       paddingTop: 10,
       paddingBottom: 35,
