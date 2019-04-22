@@ -27,7 +27,11 @@ const CustomDrawerComponent = (props) => (
 
 const LeftDrawerNav = createDrawerNavigator ({
   Home: HomeScreen,
-  Nest: NestScreen,
+  Nest:
+    {
+      screen: NestScreen,
+      params: {Selected_Event: "test"}
+    },
   Chat: ChatScreen,
 }, {
   contentComponent: CustomDrawerComponent,

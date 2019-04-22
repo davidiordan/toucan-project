@@ -7,7 +7,20 @@ import * as firebase from 'firebase';
 
 const { width, height } = Dimensions.get('window');
 
+const Images = [
+  { uri: "https://gcn.com/~/media/GIG/EDIT_SHARED/Blockchain/fintech.png" },
+  { uri: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F56848091%2F255902149002%2F1%2Foriginal.20190214-231212?w=800&auto=compress&rect=9%2C141%2C1296%2C648&s=a46da236fcc067725c34f826871fba02" },
+  { uri: "https://cdn-images-1.medium.com/max/2600/1*JAJ910fg52ODIRZjHXASBQ.png" },
+  { uri: "http://www.dlrgroup.com/media/733355/75-00008-12_moscone-center_dlr-group_marquee-0.jpg" }
+]
+
+const CARD_HEIGHT = height / 4;
+const CARD_WIDTH = CARD_HEIGHT - 50;
+
+
 export default class HomeScreen extends React.Component {
+
+
   constructor(props) {
     super(props);
 
@@ -17,8 +30,8 @@ export default class HomeScreen extends React.Component {
       email: '',
       events: [],
       location: {
-          latitude: 45.521016,
-          longitude: -122.6561917,
+          latitude: 38.9717,
+          longitude: -95.2353,
         },
       errorMessage: null,
       markers: [
@@ -27,35 +40,45 @@ export default class HomeScreen extends React.Component {
 	    latitude: 37.827897,
 	    longitude: -122.372439,
 	  },
-	  title: "best place",
-	  description: "This is the best place in Portland",
+	  title: "Fintech Friday",
+	  description: "Social Mixer",
+	  image: Images[0],
 	},
 	{
 	  coordinate: {
 	    latitude: 37.795204,
 	    longitude:  -122.464502,
 	  },
-	  title: "Second Best Place",
-	  description: "This is the second best place in Portland",
+	  title: "BUIDL SF",
+	  description: "Blockchain Hackathon",
+	  image: Images[1],
 	},
 	{
 	  coordinate: {
 	    latitude: 37.784432,
 	    longitude: -122.410301,
 	  },
-	  title: "Third Best Place",
-	  description: "This is the third best place in Portland",
+	  title: "DockerCon",
+	  description: "Select topics on Docker",
+	  image: Images[2],
 	},
 	{
 	  coordinate: {
 	    latitude:  37.818269,
 	    longitude: -122.478967,
 	  },
-	  title: "Fourth Best Place",
-	  description: "This is the fourth best place in Portland",
+	  title: "2019 SF Career Fair",
+	  description: "Meet Tech Companies that are hiring",
+	  image: Images[3],
 	},
       ],
+      region: {
+	latitudeDelta: 0.04864195044303443,
+	longitudeDelta: 0.040142817690068,
+      },
     });
+
+
 
     let curUser = firebase.auth().currentUser;
     if (curUser !== null) {
@@ -142,9 +165,65 @@ export default class HomeScreen extends React.Component {
     _getLocationAsync();
     // request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/events.json');
     // request.send();
+    
   }
 
-  render() {
+  componentWillMount() {
+      this.index = 0;
+      this.animation = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    // We should detect when scrolling has stopped then animate
+    // We should just debounce the event listener here
+    this.animation.addListener(({ value }) => {
+      let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
+      if (index >= this.state.markers.length) {
+        index = this.state.markers.length - 1;
+      }
+      if (index <= 0) {
+        index = 0;
+      }
+
+      clearTimeout(this.regionTimeout);
+      this.regionTimeout = setTimeout(() => {
+        if (this.index !== index) {
+          this.index = index;
+          const { coordinate } = this.state.markers[index];
+          this.map.animateToRegion(
+            {
+              ...coordinate,
+              latitudeDelta: this.state.region.latitudeDelta,
+              longitudeDelta: this.state.region.longitudeDelta,
+            },
+            350
+          );
+        }
+      }, 10);
+    });
+  }
+
+   render() {
+
+    const interpolations = this.state.markers.map((marker, index) => {
+      const inputRange = [
+	(index - 1) * CARD_WIDTH,
+	index * CARD_WIDTH,
+	((index + 1) * CARD_WIDTH),
+      ];
+      const scale = this.animation.interpolate({
+	inputRange,
+	outputRange: [1, 2.5, 1],
+	extrapolate: "clamp",
+      });
+      const opacity = this.animation.interpolate({
+	inputRange,
+	outputRange: [0.35, 1, 0.35],
+	extrapolate: "clamp",
+      });
+      return { scale, opacity };
+    });
+
     if (this.state.loading) {
       // not a fan of having two different render containers
       //    here that do the same minus the loading indicator
@@ -189,17 +268,28 @@ export default class HomeScreen extends React.Component {
         </Header>
 
 
-        <View style={styles.map}>
+        <View style={styles.container}>
           <MapView 
-            style={{width: width, height: height / 3}}
+	    ref={map => this.map = map}
             initialRegion={{
               latitude: this.state.location.latitude,
               longitude: this.state.location.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0424,
             }}
+	    style={styles.container}
           >
 	    {this.state.markers.map((marker, index) => {
+	      const scaleStyle = {
+		transform: [
+		  {
+		    scale: interpolations[index].scale,
+		  },
+		],
+	      };
+	      const opacityStyle = {
+		opacity: interpolations[index].opacity,
+	      };
 	      return (
 		<MapView.Marker key={index} coordinate={marker.coordinate}>
 		  <Animated.View style={[styles.markerWrap]}>
@@ -211,23 +301,65 @@ export default class HomeScreen extends React.Component {
 	    })}
 	  </MapView>
         </View>
-     
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          {/* will probably be switching to FlatList from react-native */}
+
+
+	<Animated.ScrollView
+	  horizontal
+	  scrollEventThrottle={1}
+	  showsHorizontalScrollIndicator={false}
+	  snapToInterval={CARD_WIDTH}
+	  onScroll={Animated.event(
+	    [
+	      {
+		nativeEvent: {
+		  contentOffset: {
+		    x: this.animation,
+		  },
+		},
+	      },
+	    ],
+	    { useNativeDriver: true }
+	  )}
+	  style={styles.scrollView}
+	  contentContainerStyle={styles.endPadding}
+	>
+	  {this.state.markers.map((marker, index) => (
+            <View style={styles.card} key={index}>
+		<Image
+		  source={marker.image}
+		  style={styles.cardImage}
+		  resizeMode="cover"
+		/>
+              <View style={styles.textContent}>
+                <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
+                <Text numberOfLines={1} style={styles.cardDescription}>
+                  {marker.description}
+                </Text>
+              </View>
+            </View>
+          ))}
+
+	</Animated.ScrollView>
+
+	{/*
+	<ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <FlatList
               contentContainerStyle={{paddingLeft: 6, flexDirection:'row', flexDirection:'column', justifyContent:'space-around'}}
               numColumns={2}
               data={this.state.events}
-              renderItem={({ item }) => 
+              renderItem={({ item }) =>  
                 <Card style={styles.cards}>
                   <Button style={styles.cardBtn} onPress={() => this.props.navigation.navigate('Nest', {Selected_Event: item.uid})}>
                     <Text>{item.name}</Text>
                   </Button>
                 </Card>
-              }
+              }   
               keyExtractor={(item, index) => index.toString()}
-          />
+          />  
         </ScrollView>
+      */}
+
+     
       </Container>
     );
   }
@@ -237,10 +369,55 @@ const styles = StyleSheet.create({
     container: {
       alignContent: 'center',
       justifyContent: 'center',
+      flex: 1,
     },
+
+
+    scrollView: {
+      position: "absolute",
+      bottom: 10,
+      paddingVertical: 0,
+    },
+    endPadding: {
+      paddingRight: width - CARD_WIDTH,
+    },
+    card: {
+      padding: 0,
+      elevation: 2,
+      backgroundColor: "#FFF",
+      marginHorizontal: 0,
+      shadowColor: "#000",
+      shadowRadius: 5,
+      shadowOpacity: 0.3,
+      shadowOffset: { x: 2, y: -2 },
+      height: CARD_HEIGHT,
+      width: CARD_WIDTH,
+      overflow: "hidden",
+    },
+    cardImage: {
+      flex: 3,
+      width: "100%",
+      height: "100%",
+      alignSelf: "center",
+    },
+    textContent: {
+      flex: 1,
+    },
+    cardtitle: {
+      fontSize: 12,
+      marginTop: 5,
+      fontWeight: "bold",
+    },
+    cardDescription: {
+      fontSize: 12,
+      color: "#444",
+    },
+
+
+
+
     content: {
-      paddingTop: 10,
-      paddingBottom: 35,
+      bottom: 10,
       alignItems: 'center',
       backgroundColor: '#e8e8e8',
     },
@@ -301,3 +478,4 @@ const styles = StyleSheet.create({
       borderColor: "rgba(130,4,150, 0.5)",
   },
   });
+
