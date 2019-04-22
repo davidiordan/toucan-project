@@ -19,8 +19,6 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 
 
 export default class HomeScreen extends React.Component {
-
-
   constructor(props) {
     super(props);
 
@@ -204,22 +202,21 @@ export default class HomeScreen extends React.Component {
   }
 
    render() {
-
     const interpolations = this.state.markers.map((marker, index) => {
       const inputRange = [
-	(index - 1) * CARD_WIDTH,
-	index * CARD_WIDTH,
-	((index + 1) * CARD_WIDTH),
+        (index - 1) * CARD_WIDTH,
+        index * CARD_WIDTH,
+        ((index + 1) * CARD_WIDTH),
       ];
       const scale = this.animation.interpolate({
-	inputRange,
-	outputRange: [1, 2.5, 1],
-	extrapolate: "clamp",
+        inputRange,
+        outputRange: [1, 2.5, 1],
+        extrapolate: "clamp",
       });
       const opacity = this.animation.interpolate({
-	inputRange,
-	outputRange: [0.35, 1, 0.35],
-	extrapolate: "clamp",
+        inputRange,
+        outputRange: [0.35, 1, 0.35],
+        extrapolate: "clamp",
       });
       return { scale, opacity };
     });
@@ -270,76 +267,75 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.container}>
           <MapView 
-	    ref={map => this.map = map}
-            initialRegion={{
-              latitude: this.state.location.latitude,
-              longitude: this.state.location.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0424,
+	          ref={map => this.map = map}
+              initialRegion={{
+                latitude: this.state.location.latitude,
+                longitude: this.state.location.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0424,
             }}
-	    style={styles.container}
+	          style={styles.container}
           >
-	    {this.state.markers.map((marker, index) => {
-	      const scaleStyle = {
-		transform: [
-		  {
-		    scale: interpolations[index].scale,
-		  },
-		],
-	      };
-	      const opacityStyle = {
-		opacity: interpolations[index].opacity,
-	      };
-	      return (
-		<MapView.Marker key={index} coordinate={marker.coordinate}>
-		  <Animated.View style={[styles.markerWrap]}>
-		    <Animated.View style={[styles.ring]} />
-		    <View style={styles.marker} />
-		  </Animated.View>
-		</MapView.Marker>
-	      );
-	    })}
-	  </MapView>
+	          {this.state.markers.map((marker, index) => {
+              const scaleStyle = {
+                transform: [{
+                  scale: interpolations[index].scale,
+                },],
+              };
+              const opacityStyle = {
+                opacity: interpolations[index].opacity,
+              };
+              return (
+                <MapView.Marker key={index} coordinate={marker.coordinate}>
+                  <Animated.View style={[styles.markerWrap]}>
+                    <Animated.View style={[styles.ring]} />
+                    <View style={styles.marker} />
+                  </Animated.View>
+                </MapView.Marker>
+              );
+	          })}
+	        </MapView>
         </View>
 
-
-	<Animated.ScrollView
-	  horizontal
-	  scrollEventThrottle={1}
-	  showsHorizontalScrollIndicator={false}
-	  snapToInterval={CARD_WIDTH}
-	  onScroll={Animated.event(
-	    [
-	      {
-		nativeEvent: {
-		  contentOffset: {
-		    x: this.animation,
-		  },
-		},
-	      },
-	    ],
-	    { useNativeDriver: true }
-	  )}
-	  style={styles.scrollView}
-	  contentContainerStyle={styles.endPadding}
-	>
-	  {this.state.markers.map((marker, index) => (
-            <View style={styles.card} key={index}>
-		<Image
-		  source={marker.image}
-		  style={styles.cardImage}
-		  resizeMode="cover"
-		/>
-              <View style={styles.textContent}>
-                <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
-                <Text numberOfLines={1} style={styles.cardDescription}>
-                  {marker.description}
-                </Text>
+        <View style={styles.cardBacker}>
+          <Animated.ScrollView
+            horizontal
+            scrollEventThrottle={1}
+            showsHorizontalScrollIndicator={false}
+            snapToInterval={CARD_WIDTH}
+            onScroll={Animated.event(
+              [
+                {
+            nativeEvent: {
+              contentOffset: {
+                x: this.animation,
+              },
+            },
+                },
+              ],
+              { useNativeDriver: true }
+            )}
+            style={styles.scrollView}
+            contentContainerStyle={styles.endPadding}
+          >
+            {this.state.markers.map((marker, index) => (
+              <View style={styles.card} key={index}>
+                <Image
+                  source={marker.image}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
+                  <Text numberOfLines={1} style={styles.cardDescription}>
+                    {marker.description}
+                  </Text>
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
 
-	</Animated.ScrollView>
+          </Animated.ScrollView>
+        </View>
 
 	{/*
 	<ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -379,12 +375,20 @@ const styles = StyleSheet.create({
       paddingVertical: 0,
     },
     endPadding: {
+      paddingLeft: 10,
       paddingRight: width - CARD_WIDTH,
+      backgroundColor: "#f8f8f8",
+    },
+    cardBacker: {
+      backgroundColor: "#f8f8f8",
+      height: CARD_HEIGHT + 20,
+      borderTopWidth: 2,
+      borderTopColor: 'rgba(0, 0, 0, 0.1)',
     },
     card: {
-      padding: 0,
+      padding: 5,
       elevation: 2,
-      backgroundColor: "#FFF",
+      backgroundColor: "#f8f8f8",
       marginHorizontal: 0,
       shadowColor: "#000",
       shadowRadius: 5,
