@@ -9,7 +9,7 @@ import NestScreen from '../NestScreen';
 import LoginScreen from "../Login/Login"
 import SignUpScreen from "../Login/SignUp";
 import AddEventScreen from "../Events/AddEvent";
-import ChatScreen from "../Chat/ChatScreen";
+import SettingsScreen from "../Settings";
 
 export default class Navigator extends React.Component {
   render() {
@@ -27,12 +27,7 @@ const CustomDrawerComponent = (props) => (
 
 const LeftDrawerNav = createDrawerNavigator ({
   Home: HomeScreen,
-  Nest:
-    {
-      screen: NestScreen,
-      params: {Selected_Event: "test"}
-    },
-  Chat: ChatScreen,
+  Settings: SettingsScreen,
 }, {
   contentComponent: CustomDrawerComponent,
   contentOptions: {
@@ -56,6 +51,7 @@ const AppCont = createAppContainer(
     App: LeftDrawerNav,
     Auth: AuthStack,
     AddEvent: AddEventScreen,
+    Nest: NestScreen,
   },{
     initialRouteName: 'App', // edited here
   })

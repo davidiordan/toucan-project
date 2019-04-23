@@ -1,29 +1,177 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native'
+import * as firebase from 'firebase';
+import { StyleSheet, Text, View, Dimensions, Alert, ActivityIndicator } from 'react-native'
 import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Card } from 'native-base';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { Col, Grid } from 'react-native-easy-grid';
+import { Bubble, GiftedChat, MessageText } from 'react-native-gifted-chat';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const { width, height } = Dimensions.get('window');
 
 class NestScreen extends React.Component {
+  // constructor(props) {
+  //   super(props);
+
+  //   const eventID = this.props.navigation.state.params.Selected_Event;
+  //   console.log(eventID);
+  // }
+
   constructor(props) {
     super(props);
 
-    // const eventID = this.props.navigation.state.params.Selected_Event;
-    // console.log(eventID);
+    this.state = {
+      messages: [],
+      userId: 'no_user_logged_in',
+      loading: true,
+    };
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = (e) => {
+      if (request.readyState !== 4) {
+        return;
+      }
+      if (request.status === 200) {
+        let userId = JSON.parse(request.responseText);
+        this.state.userId = userId;
+      } else {
+        console.warn('error getting username');
+      }
+
+      this.setState({ loading: false });
+    };
+
+    request.open('GET', 'https://toucan-v1-6245e.firebaseio.com/users/' + firebase.auth().currentUser.uid + "/username.json");
+    request.send();
+  }
+
+  renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#F8F8F8',
+          },
+          right: {
+            backgroundColor: '#1E7898'
+          }
+        }}
+        renderUsernameOnMessage={true}
+      />
+    );
+  };
+
+  renderMessageText = (props) => {
+    return (
+      <MessageText
+        {...props}
+        textStyle={{
+          left: [
+            styles.msgTxt
+          ],
+          right: [
+            styles.msgTxt
+          ]
+        }}
+      />
+    );
+  }
+
+  get ref() {
+    return firebase.database().ref('messages');
+  }
+
+  on = (callback) => {
+    this.ref.limitToLast(45).on('child_added', snapshot => {
+      callback(this.parse(snapshot))
+    });
+  }
+
+  parse = (snapshot) => {
+    const {timestamp: numberStamp, text, user} = snapshot.val();
+    const {key: _id} = snapshot;
+
+    const timestamp = new Date(numberStamp);
+
+    const message = {
+      _id, 
+      timestamp, 
+      text, 
+      user
+    };
+
+    return message;
+  }
+
+  off() {
+    this.ref.off();
+  }
+
+  get timestamp() {
+    return firebase.database.ServerValue.TIMESTAMP;
+  }
+
+  send = (messages) => {
+    for (let i = 0; i < messages.length; i++) {
+      const {text, user} = messages[i];
+
+      const message = {
+        text, 
+        user, 
+        timestamp: this.timestamp,
+      }
+
+      this.append(message);
+    }
+  }
+
+  append = (message) => {
+    this.ref.push(message);
+  }
+
+  get user() {
+    return {
+      name: this.state.userId,
+      _id: firebase.auth().currentUser.uid,
+    }
+  }
+
+  get ref(){
+    return firebase.database().ref('messages');
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <Container style={{ backgroundColor: '#e8e8e8' }}>
+          <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
+              <Left style={ styles.navButtons }>
+              <Icon name="ios-home" onPress={() => this.props.navigation.navigate("Home")} style={styles.leftIcon} />
+              </Left>
+              <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
+                <Title style={styles.navTitle}>Loading</Title>
+              </Body>
+              <Right style={ styles.navButtons }>
+                <Icon name="ios-add" onPress={() => this.props.navigation.navigate("AddEvent")} style={styles.rightIcon} />
+              </Right>
+          </Header>
+          <ActivityIndicator
+            style={{ paddingTop: height/2.6, }}
+            size="large" color="#1E7898"
+          />
+        </Container>
+      )
+    } 
     return (
       <Container style={{ backgroundColor: '#e8e8e8' }}>
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
           {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
-              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
+            <Icon name="ios-home" onPress={() => this.props.navigation.navigate("Home")} style={styles.leftIcon} />
             </Left>
             <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
-              <Title style={styles.navTitle}>Fintech</Title>
+              <Title style={styles.navTitle}>Chat</Title>
             </Body>
             <Right style={ styles.navButtons }>
               {/* Empty */}
@@ -31,11 +179,29 @@ class NestScreen extends React.Component {
           {/* </Container> */}
         </Header>
         
-        <Content contentContainerStyle={styles.content}>
-          <Text>Chat Screen</Text>
-        </Content>
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={this.send}
+          user={this.user}
+          renderBubble={this.renderBubble}
+          renderMessageText={this.renderMessageText}
+          placeholder="Words go here!"
+          bottomOffset={82}
+        />
       </Container>
     );
+  }
+
+  componentDidMount() {
+    this.on(message => {
+      this.setState(prevState => ({
+        messages: GiftedChat.append(prevState.messages, message)
+      }))
+    });
+  }
+
+  componentWillUnmount() {
+    this.off();
   }
 }
 
@@ -50,10 +216,10 @@ class VendorScreen extends React.Component {
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
           {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
-              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
+              <Icon name="ios-home" onPress={() => this.props.navigation.navigate("Home")} style={styles.leftIcon} />
             </Left>
             <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
-              <Title style={styles.navTitle}>Fintech</Title>
+              <Title style={styles.navTitle}>Vendors</Title>
             </Body>
             <Right style={ styles.navButtons }>
               {/* Empty */}
@@ -65,7 +231,12 @@ class VendorScreen extends React.Component {
           <Grid style={styles.vendorGrid}>
             <Col>
               <Card style={styles.vendorCard}>
-                <Text>//</Text>
+                <Title style={{fontFamily: "Ubuntu-B"}}>No Vendors Have Been Provided</Title>
+                <Body>
+                  <Text style={{fontFamily: "Ubuntu-R", fontSize: 16, paddingTop: 10}}>
+                    The creator of this event has yet to enter and information regarding vendors.
+                  </Text>
+                </Body>
               </Card>
             </Col>
           </Grid>
@@ -86,10 +257,10 @@ class InfoScreen extends React.Component {
         <Header androidStatusBarColor="#275667" iosBarStyle='light-content' style={styles.header}>
           {/* <Container style={ styles.navButtons }> */}
             <Left style={ styles.navButtons }>
-              <Icon name="ios-menu" onPress={() => this.props.navigation.openDrawer()} style={styles.leftIcon} />
+            <Icon name="ios-home" onPress={() => this.props.navigation.navigate("Home")} style={styles.leftIcon} />
             </Left>
             <Body style={ { flex:1, justifyContent:'center', alignItems:'center' } }>
-              <Title style={styles.navTitle}>Fintech</Title>
+              <Title style={styles.navTitle}>Info</Title>
             </Body>
             <Right style={ styles.navButtons }>
               {/* Empty */}
@@ -100,13 +271,23 @@ class InfoScreen extends React.Component {
         <Content contentContainerStyle={styles.content}>
           <Grid style={styles.vendorGrid}>
             <Col>
-              <Card style={styles.vendorCard}>
-                <Title>Fintech Friday Info</Title>
-                <Body><Text>Words</Text></Body>
+              <Card style={styles.infoCard}>
+                <Title style={{fontFamily: "Ubuntu-B"}}>EECS 582 Demo Info</Title>
+                <Body>
+                  <Text style={{fontFamily: "Ubuntu-R", fontSize: 16, paddingTop: 10}}>
+                    We are gathered to day to celebrate the "completion" of Toucan. Toucan was the
+                    Senior Design project for Team 14. Let's all come together and enjoy what they
+                    did.
+                  </Text>
+                </Body>
               </Card>
               <Card style={styles.vendorLoc}>
-                <Title>Location</Title>
-                <Body><Text>Words</Text></Body>
+                <Title style={{fontFamily: "Ubuntu-B"}}>Location</Title>
+                <Body>
+                  <Text style={{fontFamily: "Ubuntu-R", fontSize: 16, paddingTop: 10}}>
+                    One Apple Park Way, Cupertino, CA 95014
+                  </Text>
+                </Body>
               </Card>
             </Col>
           </Grid>
@@ -121,12 +302,28 @@ const TabNavigator = createBottomTabNavigator({
   Info: InfoScreen,
   Vendors: VendorScreen,
 },{
+  defaultNavigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let IconComponent = MaterialIcons;
+      let iconName;
+      if (routeName === 'Chat') {
+        iconName = `chat-bubble`;
+      } else if (routeName === 'Info') {
+        iconName = `info`;
+      } else if (routeName === 'Vendors') {
+        iconName = `attach-money`;
+      }
+      
+      return <IconComponent name={iconName} size={20} color={tintColor} />;
+    },
+  }),
   initialRouteName: 'Chat',
   tabBarOptions: {
     activeTintColor: '#1E7898',
-    inactiveTintColor: 'black',
+    inactiveTintColor: '#333333',
     labelStyle: {
-      fontSize: 15, 
+      fontSize: 16, 
       fontFamily: 'Ubuntu-R',
     },
     style: {
@@ -165,7 +362,13 @@ const styles = StyleSheet.create({
     },
     vendorCard: {
       width: width * 0.95,
-      height: height / 3,
+      height: height / 9,
+      borderRadius: 15,
+      paddingTop: 8
+    },
+    infoCard: {
+      width: width * 0.95,
+      height: height / 6,
       borderRadius: 15,
       paddingTop: 8
     },
@@ -173,6 +376,10 @@ const styles = StyleSheet.create({
       width: width * 0.95,
       height: height / 9,
       borderRadius: 15,
-      paddingTop: 8
+      paddingTop: 10
     },
+    msgTxt: {
+      fontFamily: 'Ubuntu-R',
+      fontSize: 16,
+    }
 });

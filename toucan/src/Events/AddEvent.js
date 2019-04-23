@@ -101,7 +101,8 @@ export default class AddEventScreen extends React.Component {
                         placeholder="Event Description" 
                         placeholderTextColor="black" 
                         onChangeText={(description) => this.setState({description})}
-                        style={ styles.inputDesc } />
+                        style={ styles.inputDesc } 
+                        multiline={true} />
               </Item>
               <Item style={ { paddingBottom:8, borderColor:'transparent' } }>
                 <Label style={ { color: 'black', fontSize: 18 } }>Tags</Label>
@@ -153,10 +154,10 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     form: {
+      flex: 1,
       top: 8,
       color: 'black',
       alignItems: "center",
-      height: (3.05*height)/5,
     },
     input: {
       color: '#434343',
@@ -168,6 +169,7 @@ const styles = StyleSheet.create({
       paddingLeft: 10
     },
     inputDesc: {
+      paddingTop: 8,
       color: '#434343',
       backgroundColor: 'white',
       borderRadius: 15,
@@ -175,6 +177,7 @@ const styles = StyleSheet.create({
       borderColor: '#E8E5E5',
       right: 7,
       paddingLeft: 10,
+      height: 150
     },
     addEvent: {
       width: 200,

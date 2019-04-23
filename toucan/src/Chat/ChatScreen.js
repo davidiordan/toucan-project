@@ -11,7 +11,7 @@ import { Icon, Button, Container, Header, Content, Left, Title, Body, Right, Car
   name?: string,
 };*/
 
-class Chat extends React.Component {
+export default class Chat extends React.Component {
   // 2.
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).name || 'Chat!',
@@ -165,4 +165,3 @@ const styles = StyleSheet.create({
     flex: 1,
   }
 });
-export default Chat;

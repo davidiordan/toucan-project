@@ -11,7 +11,8 @@ const Images = [
   { uri: "https://gcn.com/~/media/GIG/EDIT_SHARED/Blockchain/fintech.png" },
   { uri: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F56848091%2F255902149002%2F1%2Foriginal.20190214-231212?w=800&auto=compress&rect=9%2C141%2C1296%2C648&s=a46da236fcc067725c34f826871fba02" },
   { uri: "https://cdn-images-1.medium.com/max/2600/1*JAJ910fg52ODIRZjHXASBQ.png" },
-  { uri: "http://www.dlrgroup.com/media/733355/75-00008-12_moscone-center_dlr-group_marquee-0.jpg" }
+  { uri: "http://www.dlrgroup.com/media/733355/75-00008-12_moscone-center_dlr-group_marquee-0.jpg" },
+  { uri: "https://api.treanorhl.com/static/media/_versions/design/science-technology/projects/ku-leep-2/leep2106_slideshow.jpg" }
 ]
 
 const CARD_HEIGHT = height / 4;
@@ -30,49 +31,59 @@ export default class HomeScreen extends React.Component {
       location: {
           latitude: 38.9717,
           longitude: -95.2353,
-        },
+      },
       errorMessage: null,
       markers: [
-	{
-	  coordinate: {
-	    latitude: 37.827897,
-	    longitude: -122.372439,
-	  },
-	  title: "Fintech Friday",
-	  description: "Social Mixer",
-	  image: Images[0],
-	},
-	{
-	  coordinate: {
-	    latitude: 37.795204,
-	    longitude:  -122.464502,
-	  },
-	  title: "BUIDL SF",
-	  description: "Blockchain Hackathon",
-	  image: Images[1],
-	},
-	{
-	  coordinate: {
-	    latitude: 37.784432,
-	    longitude: -122.410301,
-	  },
-	  title: "DockerCon",
-	  description: "Select topics on Docker",
-	  image: Images[2],
-	},
-	{
-	  coordinate: {
-	    latitude:  37.818269,
-	    longitude: -122.478967,
-	  },
-	  title: "2019 SF Career Fair",
-	  description: "Meet Tech Companies that are hiring",
-	  image: Images[3],
-	},
+	    {
+	      coordinate: {
+          latitude: 37.827897,
+          longitude: -122.372439,
+      },
+        title: "Fintech Friday",
+        description: "Social Mixer",
+        image: Images[0],
+      },
+      {
+        coordinate: {
+          latitude: 37.795204,
+          longitude:  -122.464502,
+        },
+        title: "BUIDL SF",
+        description: "Blockchain Hackathon",
+        image: Images[1],
+      },
+      {
+        coordinate: {
+          latitude: 37.784432,
+          longitude: -122.410301,
+        },
+        title: "DockerCon",
+        description: "Select topics on Docker",
+        image: Images[2],
+      },
+      {
+        coordinate: {
+          latitude:  37.818269,
+          longitude: -122.478967,
+        },
+        title: "2019 SF Career Fair",
+        description: "Meet Tech Companies that are hiring",
+        image: Images[3],
+      },
+      // uncomment for demo
+      // {
+      //   coordinate: {
+      //     latitude: 37.334755,
+      //     longitude: -122.009078,
+      //   },
+      //   title: "EECS 582 Demo",
+      //   description: "Demo of Toucan for EECS 582 class",
+      //   image: Images[4],
+      // },
       ],
       region: {
-	latitudeDelta: 0.04864195044303443,
-	longitudeDelta: 0.040142817690068,
+        latitudeDelta: 0.04864195044303443,
+        longitudeDelta: 0.040142817690068,
       },
     });
 
