@@ -53,6 +53,6 @@ const AppCont = createAppContainer(
     AddEvent: AddEventScreen,
     Nest: NestScreen,
   },{
-    initialRouteName: 'App', // edited here
+    initialRouteName: 'Auth', // edited here
   })
 );

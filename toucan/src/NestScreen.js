@@ -187,6 +187,7 @@ class NestScreen extends React.Component {
           renderMessageText={this.renderMessageText}
           placeholder="Words go here!"
           bottomOffset={82}
+          showUserAvatar={true}
         />
       </Container>
     );
@@ -275,9 +276,9 @@ class InfoScreen extends React.Component {
                 <Title style={{fontFamily: "Ubuntu-B"}}>EECS 582 Demo Info</Title>
                 <Body>
                   <Text style={{fontFamily: "Ubuntu-R", fontSize: 16, paddingTop: 10}}>
-                    We are gathered to day to celebrate the "completion" of Toucan. Toucan was the
-                    Senior Design project for Team 14. Let's all come together and enjoy what they
-                    did.
+                    We are gathered today to celebrate the completion of Toucan. Toucan was the
+                    Senior Design project for Team 14. Let's all come together and enjoy what they've
+                    done.
                   </Text>
                 </Body>
               </Card>

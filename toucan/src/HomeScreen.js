@@ -71,15 +71,15 @@ export default class HomeScreen extends React.Component {
         image: Images[3],
       },
       // uncomment for demo
-      // {
-      //   coordinate: {
-      //     latitude: 37.334755,
-      //     longitude: -122.009078,
-      //   },
-      //   title: "EECS 582 Demo",
-      //   description: "Demo of Toucan for EECS 582 class",
-      //   image: Images[4],
-      // },
+      {
+        coordinate: {
+          latitude: 37.334755,
+          longitude: -122.009078,
+        },
+        title: "EECS 582 Demo",
+        description: "Demo of Toucan for EECS 582 class",
+        image: Images[4],
+      },
       ],
       region: {
         latitudeDelta: 0.04864195044303443,
